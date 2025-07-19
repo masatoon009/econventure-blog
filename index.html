@@ -50,17 +50,17 @@
         
         <section id="home-section" class="page-section"><h1 class="text-4xl font-bold mb-8 text-slate-900">Latest Articles</h1><div id="latest-articles-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div></section>
         
-        <section id="article-view-section" class="page-section hidden"><div class="max-w-4xl mx-auto"><button class="back-btn mb-8 text-slate-600 font-semibold hover:text-slate-800">&larr; Back</button><div class="bg-white p-8 md:p-12 rounded-xl shadow-lg"><p id="article-view-category" class="text-sm font-semibold text-amber-600 uppercase tracking-wider"></p><h1 id="article-view-title" class="text-4xl md:text-5xl font-extrabold text-slate-900 mt-2 mb-6"></h1><div id="article-view-author" class="flex items-center mb-8"></div><div id="article-view-content" class="article-content text-lg text-slate-700"></div><hr class="my-8"><div class="flex items-center space-x-4"><button id="like-article-btn" class="flex items-center space-x-2 text-slate-600 hover:text-red-500 disabled:text-red-500"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg><span>Like</span></button><span id="like-count" class="font-semibold text-slate-700"></span></div><div id="comments-section" class="mt-12"></div></div></div></section>
+        <section id="article-view-section" class="page-section hidden"><div class="max-w-4xl mx-auto"><button class="back-btn mb-8 text-slate-600 font-semibold hover:text-slate-800" data-target="home-section">&larr; Back</button><div class="bg-white p-8 md:p-12 rounded-xl shadow-lg"><p id="article-view-category" class="text-sm font-semibold text-amber-600 uppercase tracking-wider"></p><h1 id="article-view-title" class="text-4xl md:text-5xl font-extrabold text-slate-900 mt-2 mb-6"></h1><div id="article-view-author" class="flex items-center mb-8"></div><div id="article-view-content" class="article-content text-lg text-slate-700"></div><hr class="my-8"><div class="flex items-center space-x-4"><button id="like-article-btn" class="flex items-center space-x-2 text-slate-600 hover:text-red-500 disabled:text-red-500"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg><span>Like</span></button><span id="like-count" class="font-semibold text-slate-700"></span></div><div id="comments-section" class="mt-12"></div></div></div></section>
 
         <section id="topics-section" class="page-section hidden"><div class="text-center mb-16"><h1 class="text-5xl font-extrabold text-slate-900">Explore Our Topics</h1><p class="text-xl text-slate-600 mt-4 max-w-3xl mx-auto">Browse articles by category.</p></div><div id="topics-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div></section>
         
-        <section id="category-view-section" class="page-section hidden"><button class="back-btn mb-8 text-slate-600 font-semibold hover:text-slate-800">&larr; Back to Topics</button><h1 id="category-view-title" class="text-4xl font-bold mb-8 text-slate-900"></h1><div id="category-articles-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div></section>
+        <section id="category-view-section" class="page-section hidden"><button class="back-btn mb-8 text-slate-600 font-semibold hover:text-slate-800" data-target="topics-section">&larr; Back to Topics</button><h1 id="category-view-title" class="text-4xl font-bold mb-8 text-slate-900"></h1><div id="category-articles-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div></section>
         
         <section id="forum-section" class="page-section hidden"><div class="flex justify-between items-center mb-8"><h1 class="text-4xl font-bold text-slate-900">Discussion Forum</h1><button id="create-post-btn" class="bg-amber-500 text-slate-900 font-semibold py-2 px-4 rounded-lg hover:bg-amber-400">Create New Post</button></div><div id="forum-posts-list" class="space-y-4"></div></section>
         
-        <section id="forum-post-view-section" class="page-section hidden"><div class="max-w-4xl mx-auto"><button class="back-btn mb-8 text-slate-600 font-semibold hover:text-slate-800">&larr; Back to Forum</button><div id="forum-post-content" class="bg-white p-8 rounded-xl shadow-lg"></div><div id="forum-replies-section" class="mt-8"></div></div></section>
+        <section id="forum-post-view-section" class="page-section hidden"><div class="max-w-4xl mx-auto"><button class="back-btn mb-8 text-slate-600 font-semibold hover:text-slate-800" data-target="forum-section">&larr; Back to Forum</button><div id="forum-post-content" class="bg-white p-8 rounded-xl shadow-lg"></div><div id="forum-replies-section" class="mt-8"></div></div></section>
         
-        <section id="create-forum-post-section" class="page-section hidden"><div class="max-w-2xl mx-auto"><button class="back-btn mb-8 text-slate-600 font-semibold hover:text-slate-800">&larr; Back to Forum</button><h1 class="text-4xl font-bold mb-8 text-slate-900">Create a New Discussion Post</h1><div class="bg-white p-8 rounded-xl shadow-lg"><form id="create-post-form"><div class="space-y-4"><input type="text" id="post-title" placeholder="Post Title" required class="w-full px-4 py-2 border rounded-lg"><textarea id="post-content" rows="6" placeholder="What's on your mind?" required class="w-full px-4 py-2 border rounded-lg"></textarea><button type="submit" class="w-full bg-slate-700 text-white font-bold py-3 rounded-lg hover:bg-slate-800">Post</button></div></form></div></div></section>
+        <section id="create-forum-post-section" class="page-section hidden"><div class="max-w-2xl mx-auto"><button class="back-btn mb-8 text-slate-600 font-semibold hover:text-slate-800" data-target="forum-section">&larr; Back to Forum</button><h1 class="text-4xl font-bold mb-8 text-slate-900">Create a New Discussion Post</h1><div class="bg-white p-8 rounded-xl shadow-lg"><form id="create-post-form"><div class="space-y-4"><input type="text" id="post-title" placeholder="Post Title" required class="w-full px-4 py-2 border rounded-lg"><textarea id="post-content" rows="6" placeholder="What's on your mind?" required class="w-full px-4 py-2 border rounded-lg"></textarea><button type="submit" class="w-full bg-slate-700 text-white font-bold py-3 rounded-lg hover:bg-slate-800">Post</button></div></form></div></div></section>
         
         <section id="chat-section" class="page-section hidden"><h1 class="text-4xl font-bold mb-8 text-slate-900">Live Chat</h1><div class="bg-white rounded-xl shadow-lg p-4"><div id="chat-messages" class="overflow-y-auto mb-4 border rounded-lg p-4 bg-slate-50"></div><form id="chat-form" class="flex space-x-2"><input type="text" id="chat-input" placeholder="Type a message..." required class="flex-grow px-4 py-2 border rounded-lg"><button type="submit" class="bg-slate-700 text-white font-semibold py-2 px-4 rounded-lg hover:bg-slate-600">Send</button></form></div></section>
         
@@ -83,8 +83,6 @@
     <script type="module">
         // =================================================================================================
         // ==  IMPORTANT: PASTE YOUR FIREBASE CONFIGURATION OBJECT HERE                                   ==
-        // ==  The (auth/invalid-api-key) error means you haven't done this step correctly.             ==
-        // ==  Delete the placeholder below and paste your config from the Firebase Console.            ==
         // =================================================================================================
         // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -125,14 +123,12 @@ const firebaseConfig = {
 
         const topics = ['Macroeconomics', 'Microeconomics', 'Personal Finance', 'Investing & Stock Market', 'Behavioral Economics', 'International Trade', 'Game Theory', 'Environmental Economics', 'Business & Entrepreneurship', 'Technology & The Digital Economy', 'Career Corner', 'Economic History', 'Book/Movie Review', 'Current Events Analysis', 'Other'];
 
-        // --- NAVIGATION & UI ---
         function navigateTo(targetId, context = null) {
             ui.pageSections.forEach(section => section.classList.add('hidden'));
-            document.getElementById(targetId).classList.remove('hidden');
+            const targetSection = document.getElementById(targetId);
+            if (targetSection) targetSection.classList.remove('hidden');
             ui.navLinks.forEach(link => link.classList.toggle('active', link.dataset.target === targetId));
-
             if (chatUnsubscribe) { chatUnsubscribe(); chatUnsubscribe = null; }
-
             switch(targetId) {
                 case 'home-section': fetchAndDisplayArticles(); break;
                 case 'members-section': fetchAndDisplayMembers(); break;
@@ -156,7 +152,15 @@ const firebaseConfig = {
             ui.authLinks.classList.toggle('hidden', !!user);
             ui.userLinks.classList.toggle('hidden', !user);
             ui.navSubmitLink.classList.toggle('hidden', !user);
-            if (user) loadUserProfile(user); else if (!['home-section', 'topics-section', 'members-section', 'about-section'].some(id => !document.getElementById(id).classList.contains('hidden'))) navigateTo('home-section');
+            if (user) {
+                loadUserProfile(user);
+            } else {
+                const protectedPages = ['submit-section', 'profile-section', 'chat-section', 'forum-section'];
+                const currentPage = [...ui.pageSections].find(p => !p.classList.contains('hidden'));
+                if (protectedPages.includes(currentPage.id)) {
+                    navigateTo('home-section');
+                }
+            }
             updateMobileMenu(user);
         }
         
@@ -172,13 +176,11 @@ const firebaseConfig = {
             });
         }
 
-        // --- AUTH ---
         onAuthStateChanged(auth, updateUIForUser);
         document.getElementById('signup-form').addEventListener('submit', async e => { e.preventDefault(); try { const cred = await createUserWithEmailAndPassword(auth, document.getElementById('signup-email').value, document.getElementById('signup-password').value); await setDoc(doc(db, "users", cred.user.uid), { email: cred.user.email, name: "", bio: "", username: "", profilePicUrl: "" }); ui.signupModal.classList.add('hidden'); showMessage('Account created!'); } catch (error) { showMessage(error.message, true); } });
         document.getElementById('login-form').addEventListener('submit', async e => { e.preventDefault(); try { await signInWithEmailAndPassword(auth, document.getElementById('login-email').value, document.getElementById('login-password').value); ui.loginModal.classList.add('hidden'); showMessage('Logged in!'); navigateTo('home-section'); } catch (error) { showMessage(error.message, true); } });
         document.getElementById('logout-btn').addEventListener('click', () => signOut(auth));
 
-        // --- ARTICLES, LIKES, COMMENTS ---
         async function fetchAndDisplayArticles(articleQuery = query(collection(db, "articles"), where("status", "==", "published"), orderBy("submittedAt", "desc"), limit(9)), gridId = 'latest-articles-grid') {
             const grid = document.getElementById(gridId);
             grid.innerHTML = '<p>Loading articles...</p>';
@@ -208,12 +210,10 @@ const firebaseConfig = {
                     document.getElementById('article-view-title').textContent = article.title;
                     document.getElementById('article-view-author').innerHTML = `<img src="${article.authorPic}" class="w-12 h-12 rounded-full mr-4 object-cover"><div><p class="font-bold text-slate-800">${article.authorName}</p><p class="text-sm text-slate-500">${article.submittedAt.toDate().toLocaleDateString()}</p></div>`;
                     document.getElementById('article-view-content').innerHTML = markdownConverter.makeHtml(article.draft);
-                    
                     const user = auth.currentUser;
                     const likeBtn = document.getElementById('like-article-btn');
                     likeBtn.disabled = !user || (article.likedBy && article.likedBy.includes(user.uid));
                     document.getElementById('like-count').textContent = `${article.likes || 0} likes`;
-
                     fetchAndDisplayComments(articleId);
                 } else { showMessage('Article not found.', true); }
             } catch (error) { showMessage('Could not load article.', true); }
@@ -227,18 +227,14 @@ const firebaseConfig = {
                 await runTransaction(db, async (transaction) => {
                     const articleDoc = await transaction.get(articleRef);
                     if (!articleDoc.exists()) throw "Article does not exist!";
-                    
                     const articleData = articleDoc.data();
                     const currentLikes = articleData.likes || 0;
                     const likedBy = articleData.likedBy || [];
-
-                    if (likedBy.includes(user.uid)) { 
-                        // Intentionally do nothing for unlike for now
-                    } else { // Like
+                    if (!likedBy.includes(user.uid)) {
                         transaction.update(articleRef, { likes: currentLikes + 1, likedBy: arrayUnion(user.uid) });
                     }
                 });
-                showArticle(currentArticleId); // Refresh view
+                showArticle(currentArticleId);
             } catch (error) { showMessage("Error liking article.", true); console.error(error); }
         });
 
@@ -252,7 +248,6 @@ const firebaseConfig = {
             } else {
                 commentsSection.innerHTML += `<p class="mt-4 text-slate-600">Please log in to post a comment.</p>`;
             }
-
             const commentsQuery = query(collection(db, "articles", articleId, "comments"), orderBy("createdAt", "desc"));
             onSnapshot(commentsQuery, (snapshot) => {
                 const list = document.getElementById('comments-list');
@@ -260,7 +255,7 @@ const firebaseConfig = {
                 if (snapshot.empty) { list.innerHTML = '<p>No comments yet.</p>'; }
                 snapshot.forEach(doc => {
                     const comment = doc.data();
-                    list.innerHTML += `<div class="bg-slate-50 p-4 rounded-lg"><div class="flex items-center mb-2"><img src="${comment.authorPic}" class="w-8 h-8 rounded-full mr-3"><span class="font-semibold">${comment.authorName}</span><span class="text-xs text-slate-500 ml-auto">${comment.createdAt.toDate().toLocaleString()}</span></div><p>${comment.text}</p></div>`;
+                    list.innerHTML += `<div class="bg-slate-50 p-4 rounded-lg"><div class="flex items-center mb-2"><img src="${comment.authorPic}" class="w-8 h-8 rounded-full mr-3"><span class="font-semibold">${comment.authorName}</span><span class="text-xs text-slate-500 ml-auto">${comment.createdAt ? comment.createdAt.toDate().toLocaleString() : ''}</span></div><p>${comment.text}</p></div>`;
                 });
             });
         }
@@ -269,21 +264,12 @@ const firebaseConfig = {
             const user = auth.currentUser;
             const commentInput = document.getElementById('comment-input');
             if (!user || !commentInput.value.trim()) return;
-
             const userDoc = await getDoc(doc(db, "users", user.uid));
             const userData = userDoc.data();
-
-            await addDoc(collection(db, "articles", articleId, "comments"), {
-                text: commentInput.value,
-                authorId: user.uid,
-                authorName: userData.name || 'Anonymous',
-                authorPic: userData.profilePicUrl || 'https://placehold.co/128x128/e2e8f0/334155?text=A',
-                createdAt: serverTimestamp()
-            });
+            await addDoc(collection(db, "articles", articleId, "comments"), { text: commentInput.value, authorId: user.uid, authorName: userData.name || 'Anonymous', authorPic: userData.profilePicUrl || 'https://placehold.co/128x128/e2e8f0/334155?text=A', createdAt: serverTimestamp() });
             commentInput.value = '';
         }
 
-        // --- TOPICS & CATEGORIES ---
         function displayTopics() {
             const grid = document.getElementById('topics-grid');
             grid.innerHTML = '';
@@ -302,12 +288,26 @@ const firebaseConfig = {
             fetchAndDisplayArticles(q, 'category-articles-grid');
         }
 
-        // --- FORUM ---
-        async function fetchForumPosts() { /* ... Forum logic ... */ }
-        async function showForumPost(postId) { /* ... Forum logic ... */ }
+        async function fetchForumPosts() {
+            const list = document.getElementById('forum-posts-list');
+            list.innerHTML = '<p>Loading posts...</p>';
+            const q = query(collection(db, "forumPosts"), orderBy("createdAt", "desc"));
+            const snapshot = await getDocs(q);
+            list.innerHTML = '';
+            if (snapshot.empty) { list.innerHTML = '<p>No discussion posts yet. Be the first to create one!</p>'; }
+            snapshot.forEach(doc => {
+                const post = doc.data();
+                const postEl = document.createElement('div');
+                postEl.className = "bg-white p-4 rounded-lg shadow cursor-pointer hover:shadow-md";
+                postEl.innerHTML = `<h3 class="font-bold text-lg">${post.title}</h3><p class="text-sm text-slate-500">By ${post.authorName}</p>`;
+                postEl.addEventListener('click', () => navigateTo('forum-post-view-section', doc.id));
+                list.appendChild(postEl);
+            });
+        }
+        
+        async function showForumPost(postId) { /* ... */ }
         document.getElementById('create-post-btn').addEventListener('click', () => navigateTo('create-forum-post-section'));
         
-        // --- CHAT ---
         function setupChat() {
             const user = auth.currentUser;
             const chatForm = document.getElementById('chat-form');
@@ -317,7 +317,6 @@ const firebaseConfig = {
                 return;
             }
             chatForm.classList.remove('hidden');
-
             const q = query(collection(db, "chatMessages"), orderBy("timestamp", "desc"), limit(50));
             chatUnsubscribe = onSnapshot(q, (snapshot) => {
                 const messagesDiv = document.getElementById('chat-messages');
@@ -329,36 +328,58 @@ const firebaseConfig = {
                 });
                 messagesDiv.scrollTop = messagesDiv.scrollHeight;
             });
-
             chatForm.addEventListener('submit', async e => {
                 e.preventDefault();
                 const chatInput = document.getElementById('chat-input');
                 if (!chatInput.value.trim()) return;
                 const userDoc = await getDoc(doc(db, "users", user.uid));
                 const userData = userDoc.data();
-                await addDoc(collection(db, "chatMessages"), {
-                    text: chatInput.value,
-                    authorId: user.uid,
-                    authorName: userData.name || 'Anonymous',
-                    authorPic: userData.profilePicUrl || 'https://placehold.co/128x128/e2e8f0/334155?text=A',
-                    timestamp: serverTimestamp()
-                });
+                await addDoc(collection(db, "chatMessages"), { text: chatInput.value, authorId: user.uid, authorName: userData.name || 'Anonymous', authorPic: userData.profilePicUrl || 'https://placehold.co/128x128/e2e8f0/334155?text=A', timestamp: serverTimestamp() });
                 chatInput.value = '';
             });
         }
 
-        // --- MEMBERS & PROFILE ---
-        async function fetchAndDisplayMembers() { /* ... Member logic ... */ }
-        document.getElementById('profile-form').addEventListener('submit', async e => { /* ... Profile save logic ... */ });
+        async function fetchAndDisplayMembers() {
+            const grid = document.getElementById('members-grid');
+            grid.innerHTML = '<p>Loading members...</p>';
+            const snapshot = await getDocs(collection(db, "users"));
+            grid.innerHTML = '';
+            if (snapshot.empty) { grid.innerHTML = '<p>No members yet.</p>'; }
+            snapshot.forEach(doc => {
+                const user = doc.data();
+                grid.innerHTML += `<div class="bg-white rounded-xl shadow-lg p-6 text-center"><img src="${user.profilePicUrl || 'https://placehold.co/128x128/e2e8f0/334155?text=A'}" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover"><h3 class="text-lg font-bold">${user.name || 'New Member'}</h3><p class="text-sm text-amber-600">@${user.username || 'username'}</p><p class="text-slate-600 mt-2 text-sm">${user.bio || 'No bio yet.'}</p></div>`;
+            });
+        }
+        
+        document.getElementById('profile-form').addEventListener('submit', async e => {
+            e.preventDefault();
+            const user = auth.currentUser;
+            if (!user) return;
+            showMessage('Saving...');
+            const file = document.getElementById('profile-pic-upload').files[0];
+            let picUrl = document.getElementById('profile-pic-preview').src;
+            if (file) {
+                const storageRef = ref(storage, `profile_pictures/${user.uid}`);
+                await uploadBytes(storageRef, file);
+                picUrl = await getDownloadURL(storageRef);
+            }
+            const profileData = {
+                username: document.getElementById('profile-username').value,
+                name: document.getElementById('profile-name').value,
+                bio: document.getElementById('profile-bio').value,
+                profilePicUrl: picUrl
+            };
+            await setDoc(doc(db, "users", user.uid), profileData, { merge: true });
+            showMessage('Profile saved!');
+        });
 
-        // --- INITIALIZATION ---
         function setupEventListeners() {
             document.getElementById('login-btn').addEventListener('click', () => { ui.signupModal.classList.add('hidden'); ui.loginModal.classList.remove('hidden'); });
             document.getElementById('signup-btn').addEventListener('click', () => { ui.loginModal.classList.add('hidden'); ui.signupModal.classList.remove('hidden'); });
             document.getElementById('close-login-modal').addEventListener('click', () => ui.loginModal.classList.add('hidden'));
             document.getElementById('close-signup-modal').addEventListener('click', () => ui.signupModal.classList.add('hidden'));
             document.getElementById('mobile-menu-button').addEventListener('click', () => ui.mobileMenu.classList.toggle('hidden'));
-            ui.backBtns.forEach(btn => btn.addEventListener('click', () => window.history.back())); // A simple back navigation
+            ui.backBtns.forEach(btn => btn.addEventListener('click', (e) => navigateTo(e.currentTarget.dataset.target)));
         }
         
         setupEventListeners();
@@ -366,3 +387,4 @@ const firebaseConfig = {
     </script>
 </body>
 </html>
+

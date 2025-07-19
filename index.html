@@ -8,19 +8,41 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- showdown.js for Markdown to HTML conversion -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
         .modal-backdrop { background-color: rgba(0, 0, 0, 0.5); }
         .hidden { display: none; }
-        .modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 100; display: flex; align-items: center; justify-content: center; }
-        .nav-link.active { color: white; font-weight: 700; }
-        .article-content h1, .article-content h2, .article-content h3 { font-weight: 700; margin-top: 1.5em; margin-bottom: 0.5em; }
-        .article-content h1 { font-size: 2.25rem; } .article-content h2 { font-size: 1.875rem; } .article-content h3 { font-size: 1.5rem; }
-        .article-content p { margin-bottom: 1em; line-height: 1.6; } .article-content a { color: #f59e0b; text-decoration: underline; }
-        .article-content ul, .article-content ol { margin-left: 1.5rem; margin-bottom: 1em; } .article-content li { margin-bottom: 0.5em; }
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .nav-link.active {
+            color: white;
+            font-weight: 700;
+        }
+        /* Styles for the article content */
+        .article-content h1, .article-content h2, .article-content h3 {
+            font-weight: 700;
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+        }
+        .article-content h1 { font-size: 2.25rem; }
+        .article-content h2 { font-size: 1.875rem; }
+        .article-content h3 { font-size: 1.5rem; }
+        .article-content p { margin-bottom: 1em; line-height: 1.6; }
+        .article-content a { color: #f59e0b; text-decoration: underline; }
+        .article-content ul, .article-content ol { margin-left: 1.5rem; margin-bottom: 1em; }
+        .article-content li { margin-bottom: 0.5em; }
         .article-content blockquote { border-left: 4px solid #e2e8f0; padding-left: 1rem; margin-left: 0; font-style: italic; color: #64748b; }
-        #chat-messages { height: 60vh; }
     </style>
 </head>
 <body class="text-slate-800">
@@ -30,44 +52,108 @@
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="text-2xl font-extrabold text-white tracking-tight"><a href="#" class="nav-link" data-target="home-section">Econventure</a></div>
             <div class="hidden md:flex items-center space-x-6">
-                <a href="#" class="nav-link text-slate-300 hover:text-white" data-target="home-section">Home</a>
-                <a href="#" class="nav-link text-slate-300 hover:text-white" data-target="topics-section">Topics</a>
-                <a href="#" class="nav-link text-slate-300 hover:text-white" data-target="forum-section">Forum</a>
-                <a href="#" class="nav-link text-slate-300 hover:text-white" data-target="chat-section">Chat</a>
-                <a href="#" class="nav-link text-slate-300 hover:text-white" data-target="members-section">Members</a>
-                <a href="#" id="nav-submit-link" class="nav-link text-slate-300 hover:text-white hidden" data-target="submit-section">Submit</a>
+                <a href="#" class="nav-link text-slate-300 hover:text-white transition duration-300" data-target="home-section">Home</a>
+                <a href="#" class="nav-link text-slate-300 hover:text-white transition duration-300" data-target="topics-section">Topics</a>
+                <a href="#" class="nav-link text-slate-300 hover:text-white transition duration-300" data-target="members-section">Members</a>
+                <a href="#" class="nav-link text-slate-300 hover:text-white transition duration-300" data-target="about-section">About</a>
+                <a href="#" id="nav-submit-link" class="nav-link text-slate-300 hover:text-white transition duration-300 hidden" data-target="submit-section">Submit Article</a>
                 
-                <div id="auth-links" class="space-x-2"><button id="login-btn" class="bg-slate-700 text-white font-semibold py-2 px-4 rounded-lg hover:bg-slate-600">Login</button><button id="signup-btn" class="bg-amber-500 text-slate-900 font-semibold py-2 px-4 rounded-lg hover:bg-amber-400">Sign Up</button></div>
-                <div id="user-links" class="hidden items-center space-x-4"><a href="#" id="nav-profile-link" class="nav-link text-slate-300 hover:text-white" data-target="profile-section">Profile</a><button id="logout-btn" class="bg-red-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-red-700">Log Out</button></div>
+                <div id="auth-links" class="space-x-2">
+                    <button id="login-btn" class="bg-slate-700 text-white font-semibold py-2 px-4 rounded-lg hover:bg-slate-600 transition-colors">Login</button>
+                    <button id="signup-btn" class="bg-amber-500 text-slate-900 font-semibold py-2 px-4 rounded-lg hover:bg-amber-400 transition-colors">Sign Up</button>
+                </div>
+                <div id="user-links" class="hidden items-center space-x-4">
+                     <a href="#" id="nav-profile-link" class="nav-link text-slate-300 hover:text-white transition duration-300" data-target="profile-section">Profile</a>
+                    <button id="logout-btn" class="bg-red-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-red-700 transition-colors">Log Out</button>
+                </div>
             </div>
-            <div class="md:hidden"><button id="mobile-menu-button" class="text-white focus:outline-none"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg></button></div>
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-white focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
         </nav>
         <div id="mobile-menu" class="hidden md:hidden bg-slate-800 px-6 pb-4"></div>
     </header>
 
     <!-- Main Content Area -->
     <main class="container mx-auto px-6 py-12">
-        <section id="home-section" class="page-section"><h1 class="text-4xl font-bold mb-8 text-slate-900">Latest Articles</h1><div id="latest-articles-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div></section>
-        <section id="article-view-section" class="page-section hidden"><div class="max-w-4xl mx-auto"><button class="back-btn mb-8 text-slate-600 font-semibold hover:text-slate-800" data-target="home-section">&larr; Back</button><div class="bg-white p-8 md:p-12 rounded-xl shadow-lg"><p id="article-view-category" class="text-sm font-semibold text-amber-600 uppercase tracking-wider"></p><h1 id="article-view-title" class="text-4xl md:text-5xl font-extrabold text-slate-900 mt-2 mb-6"></h1><div id="article-view-author" class="flex items-center mb-8"></div><div id="article-view-content" class="article-content text-lg text-slate-700"></div><hr class="my-8"><div class="flex items-center space-x-4"><button id="like-article-btn" class="flex items-center space-x-2 text-slate-600 hover:text-red-500 disabled:text-red-500"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg><span>Like</span></button><span id="like-count" class="font-semibold text-slate-700"></span></div><div id="comments-section" class="mt-12"></div></div></div></section>
-        <section id="topics-section" class="page-section hidden"><div class="text-center mb-16"><h1 class="text-5xl font-extrabold text-slate-900">Explore Our Topics</h1><p class="text-xl text-slate-600 mt-4 max-w-3xl mx-auto">Browse articles by category.</p></div><div id="topics-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div></section>
-        <section id="category-view-section" class="page-section hidden"><button class="back-btn mb-8 text-slate-600 font-semibold hover:text-slate-800" data-target="topics-section">&larr; Back to Topics</button><h1 id="category-view-title" class="text-4xl font-bold mb-8 text-slate-900"></h1><div id="category-articles-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div></section>
-        <section id="forum-section" class="page-section hidden"><div class="flex justify-between items-center mb-8"><h1 class="text-4xl font-bold text-slate-900">Discussion Forum</h1><button id="create-post-btn" class="bg-amber-500 text-slate-900 font-semibold py-2 px-4 rounded-lg hover:bg-amber-400">Create New Post</button></div><div id="forum-posts-list" class="space-y-4"></div></section>
-        <section id="forum-post-view-section" class="page-section hidden"><div class="max-w-4xl mx-auto"><button class="back-btn mb-8 text-slate-600 font-semibold hover:text-slate-800" data-target="forum-section">&larr; Back to Forum</button><div id="forum-post-content" class="bg-white p-8 rounded-xl shadow-lg"></div><div id="forum-replies-section" class="mt-8"></div></div></section>
-        <section id="create-forum-post-section" class="page-section hidden"><div class="max-w-2xl mx-auto"><button class="back-btn mb-8 text-slate-600 font-semibold hover:text-slate-800" data-target="forum-section">&larr; Back to Forum</button><h1 class="text-4xl font-bold mb-8 text-slate-900">Create a New Discussion Post</h1><div class="bg-white p-8 rounded-xl shadow-lg"><form id="create-post-form"><div class="space-y-4"><input type="text" id="post-title" placeholder="Post Title" required class="w-full px-4 py-2 border rounded-lg"><textarea id="post-content" rows="6" placeholder="What's on your mind?" required class="w-full px-4 py-2 border rounded-lg"></textarea><button type="submit" class="w-full bg-slate-700 text-white font-bold py-3 rounded-lg hover:bg-slate-800">Post</button></div></form></div></div></section>
-        <section id="chat-section" class="page-section hidden"><h1 class="text-4xl font-bold mb-8 text-slate-900">Live Chat</h1><div class="bg-white rounded-xl shadow-lg p-4"><div id="chat-messages" class="overflow-y-auto mb-4 border rounded-lg p-4 bg-slate-50"></div><form id="chat-form" class="flex space-x-2"><input type="text" id="chat-input" placeholder="Type a message..." required class="flex-grow px-4 py-2 border rounded-lg"><button type="submit" class="bg-slate-700 text-white font-semibold py-2 px-4 rounded-lg hover:bg-slate-600">Send</button></form></div></section>
-        <section id="members-section" class="page-section hidden"><div class="text-center mb-16"><h1 class="text-5xl font-extrabold text-slate-900">Our Authors</h1><p class="text-xl text-slate-600 mt-4 max-w-3xl mx-auto">Meet the global community of student writers.</p></div><div id="members-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"></div></section>
-        <section id="about-section" class="page-section hidden"><div class="max-w-4xl mx-auto"><div class="text-center mb-12"><h1 class="text-5xl font-extrabold text-slate-900">About Econventure</h1><p class="text-xl text-slate-600 mt-4">Demystifying economics, one article at a time.</p></div><div class="bg-white p-8 rounded-xl shadow-lg mb-12"><h2 class="text-3xl font-bold text-slate-900 mb-4">Our Mission</h2><p class="text-lg text-slate-600 leading-relaxed">Econventure was founded on a simple belief: economics shouldn't be intimidating. It's the story of our choices, our communities, and our world...</p></div></div></section>
-        <section id="submit-section" class="page-section hidden"><div class="max-w-4xl mx-auto"><div class="text-center mb-12"><h1 class="text-5xl font-extrabold text-slate-900">Submit Your Article</h1></div><div class="bg-white p-8 rounded-xl shadow-lg"><form id="article-submission-form"><div class="space-y-6"><input type="text" id="article-title" placeholder="Article Title" required class="w-full px-3 py-2 border rounded-md"><select id="article-category" required class="w-full px-3 py-2 border rounded-md"><option>-- Please select a category --</option><option>Macroeconomics</option><option>Microeconomics</option><option>Personal Finance</option><option>Investing & Stock Market</option><option>Behavioral Economics</option><option>International Trade</option><option>Game Theory</option><option>Environmental Economics</option><option>Business & Entrepreneurship</option><option>Technology & The Digital Economy</option><option>Career Corner</option><option>Economic History</option><option>Book/Movie Review</option><option>Current Events Analysis</option><option>Other</option></select><textarea id="article-draft" rows="10" required class="w-full px-3 py-2 border rounded-md" placeholder="Write your article here..."></textarea><button type="submit" class="w-full bg-slate-700 text-white font-bold py-3 px-6 rounded-lg">Submit for Review</button></div></form></div></div></section>
-        <section id="profile-section" class="page-section hidden"><div class="max-w-2xl mx-auto"><div class="text-center mb-12"><h1 class="text-5xl font-extrabold text-slate-900">Your Author Profile</h1></div><div class="bg-white p-8 rounded-xl shadow-lg"><form id="profile-form"><div class="space-y-6"><div class="flex flex-col items-center"><img id="profile-pic-preview" src="https://placehold.co/128x128/e2e8f0/334155?text=Avatar" class="w-32 h-32 rounded-full mb-4 object-cover"><input type="file" id="profile-pic-upload" accept="image/*" class="text-sm"></div><input type="text" id="profile-username" required placeholder="Username" class="w-full px-3 py-2 border rounded-md"><input type="text" id="profile-name" required placeholder="Full Name" class="w-full px-3 py-2 border rounded-md"><textarea id="profile-bio" rows="4" class="w-full px-3 py-2 border rounded-md" placeholder="Author Bio..."></textarea><button type="submit" class="w-full bg-slate-700 text-white font-bold py-3 px-6 rounded-lg">Save Profile</button></div></form></div></div></section>
+        
+        <section id="home-section" class="page-section">
+            <h1 class="text-4xl font-bold mb-8 text-slate-900">Latest Articles</h1>
+            <div id="latest-articles-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+        </section>
+
+        <section id="article-view-section" class="page-section hidden">
+            <div class="max-w-4xl mx-auto">
+                <button id="back-to-home-btn" class="mb-8 text-slate-600 font-semibold hover:text-slate-800">&larr; Back to all articles</button>
+                <div class="bg-white p-8 md:p-12 rounded-xl shadow-lg">
+                    <p id="article-view-category" class="text-sm font-semibold text-amber-600 uppercase tracking-wider"></p>
+                    <h1 id="article-view-title" class="text-4xl md:text-5xl font-extrabold text-slate-900 mt-2 mb-6"></h1>
+                    <div id="article-view-author" class="flex items-center mb-8"></div>
+                    <div id="article-view-content" class="article-content text-lg text-slate-700"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="topics-section" class="page-section hidden">
+            <div class="text-center mb-16">
+                <h1 class="text-5xl font-extrabold text-slate-900">Explore Our Topics</h1>
+                <p class="text-xl text-slate-600 mt-4 max-w-3xl mx-auto">Browse articles by category to dive deeper into your interests.</p>
+            </div>
+            <div id="topics-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
+        </section>
+
+        <section id="category-view-section" class="page-section hidden">
+            <button id="back-to-topics-btn" class="mb-8 text-slate-600 font-semibold hover:text-slate-800">&larr; Back to all topics</button>
+            <h1 id="category-view-title" class="text-4xl font-bold mb-8 text-slate-900"></h1>
+            <div id="category-articles-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+        </section>
+        
+        <section id="members-section" class="page-section hidden">
+            <div class="text-center mb-16">
+                <h1 class="text-5xl font-extrabold text-slate-900">Our Authors</h1>
+                <p class="text-xl text-slate-600 mt-4 max-w-3xl mx-auto">Meet the global community of student writers powering Econventure.</p>
+            </div>
+            <div id="members-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"></div>
+        </section>
+
+        <section id="about-section" class="page-section hidden">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-12"><h1 class="text-5xl font-extrabold text-slate-900">About Econventure</h1><p class="text-xl text-slate-600 mt-4">Demystifying economics, one article at a time.</p></div>
+                <div class="bg-white p-8 rounded-xl shadow-lg mb-12"><h2 class="text-3xl font-bold text-slate-900 mb-4">Our Mission</h2><p class="text-lg text-slate-600 leading-relaxed">Econventure was founded on a simple belief: economics shouldn't be intimidating. It's the story of our choices, our communities, and our world. Our mission is to create a platform where high school students can explore complex economic ideas in a way that is clear, engaging, and relevant to their lives. We are a team of curious students dedicated to translating the language of markets and policies into compelling stories and practical insights for our peers.</p></div>
+            </div>
+        </section>
+
+        <section id="submit-section" class="page-section hidden">
+             <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-12"><h1 class="text-5xl font-extrabold text-slate-900">Submit Your Article</h1><p class="text-xl text-slate-600 mt-4">Share your passion for economics by contributing to our blog.</p></div>
+                <div class="bg-white p-8 rounded-xl shadow-lg"><form id="article-submission-form"><div class="space-y-6"><div><label for="article-title" class="block text-sm font-medium text-slate-700">Article Title</label><input type="text" id="article-title" required class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm"></div><div><label for="article-category" class="block text-sm font-medium text-slate-700">Category</label><select id="article-category" required class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm"><option>-- Please select a category --</option><option>Macroeconomics (Inflation, GDP)</option><option>Microeconomics (Supply & Demand)</option><option>Personal Finance & Budgeting</option><option>Investing & Stock Market</option><option>Behavioral Economics</option><option>International Trade & Globalization</option><option>Game Theory & Strategy</option><option>Environmental Economics</option><option>Business & Entrepreneurship</option><option>Technology & The Digital Economy</option><option>Career Corner</option><option>Economic History</option><option>Book/Movie Review</option><option>Current Events Analysis</option><option>Other</option></select></div><div><label for="article-draft" class="block text-sm font-medium text-slate-700">Article Draft (Supports Markdown)</label><textarea id="article-draft" rows="10" required class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm" placeholder="Write your article here..."></textarea></div><div><button type="submit" class="w-full bg-slate-700 text-white font-bold py-3 px-6 rounded-lg hover:bg-slate-800">Submit for Review</button></div></div></form></div>
+            </div>
+        </section>
+
+        <section id="profile-section" class="page-section hidden">
+            <div class="max-w-2xl mx-auto">
+                <div class="text-center mb-12"><h1 class="text-5xl font-extrabold text-slate-900">Your Author Profile</h1></div>
+                <div class="bg-white p-8 rounded-xl shadow-lg"><form id="profile-form"><div class="space-y-6">
+                    <div class="flex flex-col items-center"><img id="profile-pic-preview" src="https://placehold.co/128x128/e2e8f0/334155?text=Avatar" class="w-32 h-32 rounded-full mb-4 object-cover"><input type="file" id="profile-pic-upload" accept="image/*" class="text-sm"></div>
+                    <div><label for="profile-username" class="block text-sm font-medium text-slate-700">Username</label><input type="text" id="profile-username" required placeholder="A unique username (e.g., econ_explorer)" class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm"></div>
+                    <div><label for="profile-name" class="block text-sm font-medium text-slate-700">Full Name</label><input type="text" id="profile-name" required class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm"></div>
+                    <div><label for="profile-bio" class="block text-sm font-medium text-slate-700">Author Bio</label><textarea id="profile-bio" rows="4" class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm" placeholder="e.g., A junior at Central High School passionate about behavioral economics..."></textarea></div>
+                    <div><button type="submit" class="w-full bg-slate-700 text-white font-bold py-3 px-6 rounded-lg hover:bg-slate-800">Save Profile</button></div>
+                </div></form></div>
+            </div>
+        </section>
     </main>
     
     <!-- Modals -->
-    <div id="login-modal" class="modal modal-backdrop hidden"><div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md relative"><button id="close-login-modal" class="absolute top-4 right-4 text-slate-600 text-2xl font-bold">&times;</button><h2 class="text-2xl font-bold text-center mb-6">Login</h2><form id="login-form"><div class="space-y-4"><input type="email" id="login-email" placeholder="Email" required class="w-full px-4 py-2 border rounded-lg"><input type="password" id="login-password" placeholder="Password" required class="w-full px-4 py-2 border rounded-lg"><button type="submit" class="w-full bg-slate-700 text-white font-bold py-3 rounded-lg">Login</button></div></form></div></div>
-    <div id="signup-modal" class="modal modal-backdrop hidden"><div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md relative"><button id="close-signup-modal" class="absolute top-4 right-4 text-slate-600 text-2xl font-bold">&times;</button><h2 class="text-2xl font-bold text-center mb-6">Create Account</h2><form id="signup-form"><div class="space-y-4"><input type="email" id="signup-email" placeholder="Email" required class="w-full px-4 py-2 border rounded-lg"><input type="password" id="signup-password" placeholder="Password (min. 6 characters)" required class="w-full px-4 py-2 border rounded-lg"><button type="submit" class="w-full bg-amber-500 text-slate-900 font-bold py-3 rounded-lg">Sign Up</button></div></form></div></div>
+    <div id="login-modal" class="modal modal-backdrop items-center justify-center hidden"><div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md relative"><button id="close-login-modal" class="absolute top-4 right-4 text-slate-600 text-2xl font-bold">&times;</button><h2 class="text-2xl font-bold text-center mb-6">Login to Econventure</h2><form id="login-form"><div class="space-y-4"><input type="email" id="login-email" placeholder="Email Address" required class="w-full px-4 py-2 border rounded-lg"><input type="password" id="login-password" placeholder="Password" required class="w-full px-4 py-2 border rounded-lg"><button type="submit" class="w-full bg-slate-700 text-white font-bold py-3 rounded-lg hover:bg-slate-800">Login</button></div></form></div></div>
+    <div id="signup-modal" class="modal modal-backdrop items-center justify-center hidden"><div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md relative"><button id="close-signup-modal" class="absolute top-4 right-4 text-slate-600 text-2xl font-bold">&times;</button><h2 class="text-2xl font-bold text-center mb-6">Create Your Account</h2><form id="signup-form"><div class="space-y-4"><input type="email" id="signup-email" placeholder="Email Address" required class="w-full px-4 py-2 border rounded-lg"><input type="password" id="signup-password" placeholder="Password (min. 6 characters)" required class="w-full px-4 py-2 border rounded-lg"><button type="submit" class="w-full bg-amber-500 text-slate-900 font-bold py-3 rounded-lg hover:bg-amber-400">Sign Up</button></div></form></div></div>
     <div id="message-box" class="fixed bottom-5 right-5 bg-slate-800 text-white py-3 px-5 rounded-lg shadow-lg hidden z-[110]"></div>
 
     <!-- Firebase SDKs and App Logic -->
     <script type="module">
+        // IMPORTANT: PASTE YOUR FIREBASE CONFIGURATION HERE
         // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyAdxuptlaWc8qr77lapfCVpQkzNpIz3Hng",
@@ -81,323 +167,106 @@ const firebaseConfig = {
         
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, addDoc, collection, getDocs, query, where, orderBy, limit, serverTimestamp, onSnapshot, updateDoc, arrayUnion, arrayRemove, runTransaction } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, getDoc, addDoc, collection, getDocs, query, where, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
         import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
         const storage = getStorage(app);
+
+        const pageSections = document.querySelectorAll('.page-section');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const authLinks = document.getElementById('auth-links');
+        const userLinks = document.getElementById('user-links');
+        const navSubmitLink = document.getElementById('nav-submit-link');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const messageBox = document.getElementById('message-box');
+        const loginModal = document.getElementById('login-modal');
+        const signupModal = document.getElementById('signup-modal');
         const markdownConverter = new showdown.Converter();
-        let currentArticleId = null;
-        let currentForumPostId = null;
-        let chatUnsubscribe = null;
 
-        const ui = {
-            pageSections: document.querySelectorAll('.page-section'),
-            navLinks: document.querySelectorAll('.nav-link'),
-            authLinks: document.getElementById('auth-links'),
-            userLinks: document.getElementById('user-links'),
-            navSubmitLink: document.getElementById('nav-submit-link'),
-            mobileMenu: document.getElementById('mobile-menu'),
-            messageBox: document.getElementById('message-box'),
-            loginModal: document.getElementById('login-modal'),
-            signupModal: document.getElementById('signup-modal'),
-            backBtns: document.querySelectorAll('.back-btn'),
-        };
+        const topics = [
+            'Macroeconomics (Inflation, GDP)', 'Microeconomics (Supply & Demand)', 'Personal Finance & Budgeting',
+            'Investing & Stock Market', 'Behavioral Economics', 'International Trade & Globalization',
+            'Game Theory & Strategy', 'Environmental Economics', 'Business & Entrepreneurship',
+            'Technology & The Digital Economy', 'Career Corner', 'Economic History', 'Book/Movie Review',
+            'Current Events Analysis', 'Other'
+        ];
 
-        const topics = ['Macroeconomics', 'Microeconomics', 'Personal Finance', 'Investing & Stock Market', 'Behavioral Economics', 'International Trade', 'Game Theory', 'Environmental Economics', 'Business & Entrepreneurship', 'Technology & The Digital Economy', 'Career Corner', 'Economic History', 'Book/Movie Review', 'Current Events Analysis', 'Other'];
-
-        function navigateTo(targetId, context = null) {
-            ui.pageSections.forEach(section => section.classList.add('hidden'));
-            const targetSection = document.getElementById(targetId);
-            if (targetSection) targetSection.classList.remove('hidden');
-            ui.navLinks.forEach(link => link.classList.toggle('active', link.dataset.target === targetId));
-            if (chatUnsubscribe) { chatUnsubscribe(); chatUnsubscribe = null; }
-            switch(targetId) {
-                case 'home-section': fetchAndDisplayArticles(); break;
-                case 'members-section': fetchAndDisplayMembers(); break;
-                case 'topics-section': displayTopics(); break;
-                case 'category-view-section': showCategory(context); break;
-                case 'article-view-section': showArticle(context); break;
-                case 'forum-section': fetchForumPosts(); break;
-                case 'forum-post-view-section': showForumPost(context); break;
-                case 'chat-section': setupChat(); break;
-            }
+        function navigateTo(targetId) {
+            pageSections.forEach(section => section.classList.add('hidden'));
+            document.getElementById(targetId).classList.remove('hidden');
+            navLinks.forEach(link => link.classList.toggle('active', link.dataset.target === targetId));
+            if (targetId === 'home-section') fetchAndDisplayArticles();
+            if (targetId === 'members-section') fetchAndDisplayMembers();
+            if (targetId === 'topics-section') displayTopics();
         }
 
+        navLinks.forEach(link => link.addEventListener('click', e => { e.preventDefault(); navigateTo(e.currentTarget.dataset.target); }));
+        document.getElementById('back-to-home-btn').addEventListener('click', e => { e.preventDefault(); navigateTo('home-section'); });
+        document.getElementById('back-to-topics-btn').addEventListener('click', e => { e.preventDefault(); navigateTo('topics-section'); });
+
         function showMessage(message, isError = false) {
-            ui.messageBox.textContent = message;
-            ui.messageBox.classList.remove('hidden');
-            ui.messageBox.style.backgroundColor = isError ? '#dc2626' : '#1e293b';
-            setTimeout(() => ui.messageBox.classList.add('hidden'), 3000);
+            messageBox.textContent = message;
+            messageBox.classList.remove('hidden');
+            messageBox.style.backgroundColor = isError ? '#dc2626' : '#1e293b';
+            setTimeout(() => messageBox.classList.add('hidden'), 3000);
         }
 
         function updateUIForUser(user) {
-            ui.authLinks.classList.toggle('hidden', !!user);
-            ui.userLinks.classList.toggle('hidden', !user);
-            ui.navSubmitLink.classList.toggle('hidden', !user);
-            if (user) {
-                loadUserProfile(user);
-            } else {
-                const protectedPages = ['submit-section', 'profile-section', 'chat-section', 'forum-section', 'create-forum-post-section'];
-                const currentPage = [...ui.pageSections].find(p => !p.classList.contains('hidden'));
-                if (currentPage && protectedPages.includes(currentPage.id)) {
-                    navigateTo('home-section');
-                }
-            }
+            authLinks.classList.toggle('hidden', !!user);
+            userLinks.classList.toggle('hidden', !user);
+            navSubmitLink.classList.toggle('hidden', !user);
+            if (user) loadUserProfile(user); else navigateTo('home-section');
             updateMobileMenu(user);
         }
         
         function updateMobileMenu(user) {
-            ui.mobileMenu.innerHTML = '';
-            const links = [ { text: 'Home', target: 'home-section' }, { text: 'Topics', target: 'topics-section' }, { text: 'Forum', target: 'forum-section' }, { text: 'Chat', target: 'chat-section' }, { text: 'Members', target: 'members-section' }, { text: 'About', target: 'about-section' }];
-            if (user) { links.push({ text: 'Submit Article', target: 'submit-section' }, { text: 'Profile', target: 'profile-section' }); }
+            mobileMenu.innerHTML = '';
+            const links = [
+                { text: 'Home', target: 'home-section' }, { text: 'Topics', target: 'topics-section' },
+                { text: 'Members', target: 'members-section' }, { text: 'About', target: 'about-section' }
+            ];
+            if (user) {
+                links.push({ text: 'Submit Article', target: 'submit-section' }, { text: 'Profile', target: 'profile-section' });
+            }
             links.forEach(linkInfo => {
                  const a = document.createElement('a');
                  a.href = '#'; a.textContent = linkInfo.text; a.className = 'nav-link block text-slate-300 hover:text-white py-2'; a.dataset.target = linkInfo.target;
-                 a.addEventListener('click', e => { e.preventDefault(); navigateTo(linkInfo.target); ui.mobileMenu.classList.add('hidden'); });
-                 ui.mobileMenu.appendChild(a);
+                 a.addEventListener('click', e => { e.preventDefault(); navigateTo(linkInfo.target); mobileMenu.classList.add('hidden'); });
+                 mobileMenu.appendChild(a);
             });
         }
 
         onAuthStateChanged(auth, updateUIForUser);
-        document.getElementById('signup-form').addEventListener('submit', async e => { e.preventDefault(); try { const cred = await createUserWithEmailAndPassword(auth, document.getElementById('signup-email').value, document.getElementById('signup-password').value); await setDoc(doc(db, "users", cred.user.uid), { email: cred.user.email, name: "", bio: "", username: "", profilePicUrl: "https://placehold.co/128x128/e2e8f0/334155?text=A" }); ui.signupModal.classList.add('hidden'); showMessage('Account created!'); } catch (error) { showMessage(error.message, true); } });
-        document.getElementById('login-form').addEventListener('submit', async e => { e.preventDefault(); try { await signInWithEmailAndPassword(auth, document.getElementById('login-email').value, document.getElementById('login-password').value); ui.loginModal.classList.add('hidden'); showMessage('Logged in!'); navigateTo('home-section'); } catch (error) { showMessage(error.message, true); } });
-        document.getElementById('logout-btn').addEventListener('click', () => signOut(auth));
 
-        async function fetchAndDisplayArticles(articleQuery = query(collection(db, "articles"), where("status", "==", "published"), orderBy("submittedAt", "desc"), limit(9)), gridId = 'latest-articles-grid') {
-            const grid = document.getElementById(gridId);
-            grid.innerHTML = '<p>Loading articles...</p>';
-            try {
-                const snapshot = await getDocs(articleQuery);
-                grid.innerHTML = '';
-                if (snapshot.empty) { grid.innerHTML = '<p>No articles found.</p>'; return; }
-                snapshot.forEach(doc => {
-                    const article = doc.data();
-                    const card = document.createElement('div');
-                    card.className = "bg-white rounded-xl shadow-lg flex flex-col cursor-pointer hover:shadow-2xl transition-shadow";
-                    card.innerHTML = `<div class="p-6 flex-grow flex flex-col"><p class="text-sm font-semibold text-amber-600 uppercase">${article.category}</p><h3 class="text-xl font-bold mt-2 mb-3 flex-grow">${article.title}</h3><div class="flex items-center mt-4"><img src="${article.authorPic}" class="w-10 h-10 rounded-full mr-3 object-cover"><span class="text-slate-600 font-semibold">${article.authorName}</span></div></div>`;
-                    card.addEventListener('click', () => navigateTo('article-view-section', doc.id));
-                    grid.appendChild(card);
-                });
-            } catch (error) { grid.innerHTML = '<p>Could not load articles.</p>'; console.error(error); }
-        }
-
-        async function showArticle(articleId) {
-            currentArticleId = articleId;
-            try {
-                const docRef = doc(db, "articles", articleId);
-                const docSnap = await getDoc(docRef);
-                if (docSnap.exists()) {
-                    const article = docSnap.data();
-                    document.getElementById('article-view-category').textContent = article.category;
-                    document.getElementById('article-view-title').textContent = article.title;
-                    document.getElementById('article-view-author').innerHTML = `<img src="${article.authorPic}" class="w-12 h-12 rounded-full mr-4 object-cover"><div><p class="font-bold text-slate-800">${article.authorName}</p><p class="text-sm text-slate-500">${article.submittedAt.toDate().toLocaleDateString()}</p></div>`;
-                    document.getElementById('article-view-content').innerHTML = markdownConverter.makeHtml(article.draft);
-                    const user = auth.currentUser;
-                    const likeBtn = document.getElementById('like-article-btn');
-                    likeBtn.disabled = !user || (article.likedBy && article.likedBy.includes(user.uid));
-                    document.getElementById('like-count').textContent = `${article.likes || 0} likes`;
-                    fetchAndDisplayComments(articleId);
-                } else { showMessage('Article not found.', true); }
-            } catch (error) { showMessage('Could not load article.', true); console.error(error); }
-        }
-
-        document.getElementById('like-article-btn').addEventListener('click', async () => {
-            const user = auth.currentUser;
-            if (!user || !currentArticleId) return;
-            const articleRef = doc(db, "articles", currentArticleId);
-            try {
-                await runTransaction(db, async (transaction) => {
-                    const articleDoc = await transaction.get(articleRef);
-                    if (!articleDoc.exists()) throw "Article does not exist!";
-                    const articleData = articleDoc.data();
-                    const currentLikes = articleData.likes || 0;
-                    const likedBy = articleData.likedBy || [];
-                    if (!likedBy.includes(user.uid)) {
-                        transaction.update(articleRef, { likes: currentLikes + 1, likedBy: arrayUnion(user.uid) });
-                    }
-                });
-                showArticle(currentArticleId);
-            } catch (error) { showMessage("Error liking article.", true); console.error(error); }
-        });
-
-        async function fetchAndDisplayComments(articleId) {
-            const commentsSection = document.getElementById('comments-section');
-            commentsSection.innerHTML = `<h3 class="text-2xl font-bold mb-4">Comments</h3><div id="comments-list" class="space-y-4"></div>`;
-            const user = auth.currentUser;
-            if (user) {
-                commentsSection.innerHTML += `<form id="comment-form" class="mt-6"><textarea id="comment-input" class="w-full p-2 border rounded-md" placeholder="Add a comment..." required></textarea><button type="submit" class="mt-2 bg-slate-700 text-white font-semibold py-2 px-4 rounded-lg">Post Comment</button></form>`;
-                document.getElementById('comment-form').addEventListener('submit', e => { e.preventDefault(); addComment(articleId); });
-            } else {
-                commentsSection.innerHTML += `<p class="mt-4 text-slate-600">Please log in to post a comment.</p>`;
-            }
-            const commentsQuery = query(collection(db, "articles", articleId, "comments"), orderBy("createdAt", "desc"));
-            onSnapshot(commentsQuery, (snapshot) => {
-                const list = document.getElementById('comments-list');
-                list.innerHTML = '';
-                if (snapshot.empty) { list.innerHTML = '<p>No comments yet.</p>'; }
-                snapshot.forEach(doc => {
-                    const comment = doc.data();
-                    list.innerHTML += `<div class="bg-slate-50 p-4 rounded-lg"><div class="flex items-center mb-2"><img src="${comment.authorPic}" class="w-8 h-8 rounded-full mr-3"><span class="font-semibold">${comment.authorName}</span><span class="text-xs text-slate-500 ml-auto">${comment.createdAt ? comment.createdAt.toDate().toLocaleString() : ''}</span></div><p>${comment.text}</p></div>`;
-                });
-            });
-        }
-
-        async function addComment(articleId) {
-            const user = auth.currentUser;
-            const commentInput = document.getElementById('comment-input');
-            if (!user || !commentInput.value.trim()) return;
-            const userDoc = await getDoc(doc(db, "users", user.uid));
-            const userData = userDoc.data();
-            await addDoc(collection(db, "articles", articleId, "comments"), { text: commentInput.value, authorId: user.uid, authorName: userData.name || 'Anonymous', authorPic: userData.profilePicUrl, createdAt: serverTimestamp() });
-            commentInput.value = '';
-        }
-
-        function displayTopics() {
-            const grid = document.getElementById('topics-grid');
-            grid.innerHTML = '';
-            topics.forEach(topic => {
-                const card = document.createElement('div');
-                card.className = "bg-white rounded-xl shadow-lg p-6 text-center cursor-pointer hover:bg-amber-500 hover:text-white transition-colors duration-300";
-                card.innerHTML = `<h3 class="font-bold">${topic}</h3>`;
-                card.addEventListener('click', () => navigateTo('category-view-section', topic));
-                grid.appendChild(card);
-            });
-        }
-
-        function showCategory(category) {
-            document.getElementById('category-view-title').textContent = `Articles in: ${category}`;
-            const q = query(collection(db, "articles"), where("category", "==", category), where("status", "==", "published"), orderBy("submittedAt", "desc"));
-            fetchAndDisplayArticles(q, 'category-articles-grid');
-        }
-
-        async function fetchForumPosts() {
-            const list = document.getElementById('forum-posts-list');
-            list.innerHTML = '<p>Loading posts...</p>';
-            const q = query(collection(db, "forumPosts"), orderBy("createdAt", "desc"));
-            const snapshot = await getDocs(q);
-            list.innerHTML = '';
-            if (snapshot.empty) { list.innerHTML = '<p>No discussion posts yet. Be the first to create one!</p>'; }
-            snapshot.forEach(doc => {
-                const post = doc.data();
-                const postEl = document.createElement('div');
-                postEl.className = "bg-white p-4 rounded-lg shadow cursor-pointer hover:shadow-md";
-                postEl.innerHTML = `<h3 class="font-bold text-lg">${post.title}</h3><p class="text-sm text-slate-500">By ${post.authorName}</p>`;
-                postEl.addEventListener('click', () => navigateTo('forum-post-view-section', doc.id));
-                list.appendChild(postEl);
-            });
-        }
-        
-        async function showForumPost(postId) {
-            currentForumPostId = postId;
-            const contentDiv = document.getElementById('forum-post-content');
-            const repliesSection = document.getElementById('forum-replies-section');
-            contentDiv.innerHTML = '<p>Loading post...</p>';
-            const postRef = doc(db, "forumPosts", postId);
-            const postSnap = await getDoc(postRef);
-            if (postSnap.exists()) {
-                const post = postSnap.data();
-                contentDiv.innerHTML = `<h2 class="text-3xl font-bold">${post.title}</h2><p class="text-sm text-slate-500 my-2">By ${post.authorName}</p><p>${post.content}</p>`;
-                
-                repliesSection.innerHTML = `<h3 class="text-2xl font-bold mb-4">Replies</h3><div id="forum-replies-list" class="space-y-4"></div>`;
-                const user = auth.currentUser;
-                if (user) {
-                    repliesSection.innerHTML += `<form id="reply-form" class="mt-6"><textarea id="reply-input" class="w-full p-2 border rounded-md" placeholder="Add a reply..." required></textarea><button type="submit" class="mt-2 bg-slate-700 text-white font-semibold py-2 px-4 rounded-lg">Post Reply</button></form>`;
-                    document.getElementById('reply-form').addEventListener('submit', e => { e.preventDefault(); addForumReply(postId); });
-                }
-                const repliesQuery = query(collection(db, "forumPosts", postId, "replies"), orderBy("createdAt", "asc"));
-                onSnapshot(repliesQuery, (snapshot) => {
-                    const list = document.getElementById('forum-replies-list');
-                    list.innerHTML = '';
-                    if(snapshot.empty) { list.innerHTML = '<p>No replies yet.</p>'; }
-                    snapshot.forEach(doc => {
-                        const reply = doc.data();
-                        list.innerHTML += `<div class="bg-slate-50 p-4 rounded-lg"><div class="flex items-center mb-2"><img src="${reply.authorPic}" class="w-8 h-8 rounded-full mr-3"><span class="font-semibold">${reply.authorName}</span><span class="text-xs text-slate-500 ml-auto">${reply.createdAt ? reply.createdAt.toDate().toLocaleString() : ''}</span></div><p>${reply.text}</p></div>`;
-                    });
-                });
-            }
-        }
-        
-        async function addForumReply(postId) {
-            const user = auth.currentUser;
-            const replyInput = document.getElementById('reply-input');
-            if (!user || !replyInput.value.trim()) return;
-            const userDoc = await getDoc(doc(db, "users", user.uid));
-            const userData = userDoc.data();
-            await addDoc(collection(db, "forumPosts", postId, "replies"), { text: replyInput.value, authorId: user.uid, authorName: userData.name, authorPic: userData.profilePicUrl, createdAt: serverTimestamp() });
-            replyInput.value = '';
-        }
-
-        document.getElementById('create-post-form').addEventListener('submit', async e => {
+        document.getElementById('signup-form').addEventListener('submit', async e => {
             e.preventDefault();
-            const user = auth.currentUser;
-            if (!user) return;
-            const userDoc = await getDoc(doc(db, "users", user.uid));
-            const userData = userDoc.data();
-            const postData = {
-                title: document.getElementById('post-title').value,
-                content: document.getElementById('post-content').value,
-                authorId: user.uid,
-                authorName: userData.name,
-                createdAt: serverTimestamp()
-            };
-            await addDoc(collection(db, "forumPosts"), postData);
-            navigateTo('forum-section');
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            try {
+                const cred = await createUserWithEmailAndPassword(auth, email, password);
+                await setDoc(doc(db, "users", cred.user.uid), { email: cred.user.email, name: "", bio: "", username: "", profilePicUrl: "" });
+                signupModal.classList.add('hidden');
+                showMessage('Account created successfully!');
+            } catch (error) { showMessage(error.message, true); }
         });
-        
-        document.getElementById('create-post-btn').addEventListener('click', () => {
-            if (auth.currentUser) {
-                navigateTo('create-forum-post-section');
-            } else {
-                showMessage('You must be logged in to create a post.', true);
-            }
-        });
-        
-        function setupChat() {
-            const user = auth.currentUser;
-            const chatForm = document.getElementById('chat-form');
-            if (!user) {
-                document.getElementById('chat-messages').innerHTML = '<p class="text-center">Please log in to join the chat.</p>';
-                chatForm.classList.add('hidden');
-                return;
-            }
-            chatForm.classList.remove('hidden');
-            const q = query(collection(db, "chatMessages"), orderBy("timestamp", "desc"), limit(50));
-            chatUnsubscribe = onSnapshot(q, (snapshot) => {
-                const messagesDiv = document.getElementById('chat-messages');
-                messagesDiv.innerHTML = '';
-                const messages = snapshot.docs.reverse();
-                messages.forEach(doc => {
-                    const msg = doc.data();
-                    messagesDiv.innerHTML += `<div class="mb-2"><div class="flex items-center"><img src="${msg.authorPic}" class="w-6 h-6 rounded-full mr-2"><span class="font-bold">${msg.authorName}</span></div><p class="ml-8">${msg.text}</p></div>`;
-                });
-                messagesDiv.scrollTop = messagesDiv.scrollHeight;
-            });
-            chatForm.addEventListener('submit', async e => {
-                e.preventDefault();
-                const chatInput = document.getElementById('chat-input');
-                if (!chatInput.value.trim()) return;
-                const userDoc = await getDoc(doc(db, "users", user.uid));
-                const userData = userDoc.data();
-                await addDoc(collection(db, "chatMessages"), { text: chatInput.value, authorId: user.uid, authorName: userData.name || 'Anonymous', authorPic: userData.profilePicUrl, timestamp: serverTimestamp() });
-                chatInput.value = '';
-            });
-        }
 
-        async function fetchAndDisplayMembers() {
-            const grid = document.getElementById('members-grid');
-            grid.innerHTML = '<p>Loading members...</p>';
-            const snapshot = await getDocs(collection(db, "users"));
-            grid.innerHTML = '';
-            if (snapshot.empty) { grid.innerHTML = '<p>No members yet.</p>'; }
-            snapshot.forEach(doc => {
-                const user = doc.data();
-                grid.innerHTML += `<div class="bg-white rounded-xl shadow-lg p-6 text-center"><img src="${user.profilePicUrl || 'https://placehold.co/128x128/e2e8f0/334155?text=A'}" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover"><h3 class="text-lg font-bold">${user.name || 'New Member'}</h3><p class="text-sm text-amber-600">@${user.username || 'username'}</p><p class="text-slate-600 mt-2 text-sm">${user.bio || 'No bio yet.'}</p></div>`;
-            });
-        }
-        
+        document.getElementById('login-form').addEventListener('submit', async e => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                loginModal.classList.add('hidden');
+                showMessage('Logged in successfully!');
+                navigateTo('home-section');
+            } catch (error) { showMessage(error.message, true); }
+        });
+
+        document.getElementById('logout-btn').addEventListener('click', () => signOut(auth).catch(err => showMessage(err.message, true)));
+
         async function loadUserProfile(user) {
             if (!user) return;
             const docRef = doc(db, "users", user.uid);
@@ -415,26 +284,31 @@ const firebaseConfig = {
             e.preventDefault();
             const user = auth.currentUser;
             if (!user) return;
-            showMessage('Saving...');
-            const file = document.getElementById('profile-pic-upload').files[0];
-            let picUrl = document.getElementById('profile-pic-preview').src;
+
+            showMessage('Saving profile...');
+            const profilePicFile = document.getElementById('profile-pic-upload').files[0];
+            let profilePicUrl = document.getElementById('profile-pic-preview').src;
+
             try {
-                if (file) {
+                if (profilePicFile) {
                     const storageRef = ref(storage, `profile_pictures/${user.uid}`);
-                    await uploadBytes(storageRef, file);
-                    picUrl = await getDownloadURL(storageRef);
+                    await uploadBytes(storageRef, profilePicFile);
+                    profilePicUrl = await getDownloadURL(storageRef);
                 }
+
                 const profileData = {
                     username: document.getElementById('profile-username').value,
                     name: document.getElementById('profile-name').value,
                     bio: document.getElementById('profile-bio').value,
-                    profilePicUrl: picUrl
+                    profilePicUrl: profilePicUrl
                 };
                 await setDoc(doc(db, "users", user.uid), profileData, { merge: true });
-                showMessage('Profile saved!');
-            } catch (error) { showMessage(error.message, true); }
+                showMessage('Profile updated successfully!');
+            } catch (error) {
+                showMessage(error.message, true);
+            }
         });
-        
+
         document.getElementById('article-submission-form').addEventListener('submit', async e => {
             e.preventDefault();
             const user = auth.currentUser;
@@ -452,7 +326,7 @@ const firebaseConfig = {
                 category: document.getElementById('article-category').value,
                 draft: document.getElementById('article-draft').value,
                 status: 'published',
-                submittedAt: serverTimestamp()
+                submittedAt: new Date()
             };
             try {
                 await addDoc(collection(db, "articles"), articleData);
@@ -462,17 +336,116 @@ const firebaseConfig = {
             } catch (error) { showMessage(error.message, true); }
         });
 
+        async function fetchAndDisplayArticles(articleQuery = query(collection(db, "articles"), orderBy("submittedAt", "desc"), limit(9))) {
+            const articlesGrid = document.getElementById('latest-articles-grid');
+            articlesGrid.innerHTML = '<p>Loading articles...</p>';
+            try {
+                const querySnapshot = await getDocs(articleQuery);
+                articlesGrid.innerHTML = '';
+                if (querySnapshot.empty) {
+                    articlesGrid.innerHTML = '<p>No articles found. Be the first to contribute!</p>';
+                    return;
+                }
+                querySnapshot.forEach(doc => {
+                    const article = doc.data();
+                    const articleCard = document.createElement('div');
+                    articleCard.className = "bg-white rounded-xl shadow-lg overflow-hidden flex flex-col cursor-pointer hover:shadow-2xl transition-shadow duration-300";
+                    articleCard.innerHTML = `<div class="p-6 flex-grow flex flex-col"><p class="text-sm font-semibold text-amber-600 uppercase tracking-wider">${article.category}</p><h3 class="text-xl font-bold mt-2 mb-3 flex-grow">${article.title}</h3><div class="flex items-center mt-4"><img src="${article.authorPic}" class="w-10 h-10 rounded-full mr-3 object-cover"><span class="text-slate-600 font-semibold">${article.authorName}</span></div></div>`;
+                    articleCard.addEventListener('click', () => showArticle(doc.id));
+                    articlesGrid.appendChild(articleCard);
+                });
+            } catch (error) {
+                articlesGrid.innerHTML = '<p>Could not load articles.</p>'; console.error(error);
+            }
+        }
+
+        async function showArticle(articleId) {
+            try {
+                const docRef = doc(db, "articles", articleId);
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    const article = docSnap.data();
+                    document.getElementById('article-view-category').textContent = article.category;
+                    document.getElementById('article-view-title').textContent = article.title;
+                    document.getElementById('article-view-author').innerHTML = `<img src="${article.authorPic}" class="w-12 h-12 rounded-full mr-4 object-cover"><div><p class="font-bold text-slate-800">${article.authorName}</p><p class="text-sm text-slate-500">${article.submittedAt.toDate().toLocaleDateString()}</p></div>`;
+                    document.getElementById('article-view-content').innerHTML = markdownConverter.makeHtml(article.draft);
+                    navigateTo('article-view-section');
+                } else { showMessage('Article not found.', true); }
+            } catch (error) { showMessage('Could not load article.', true); }
+        }
+
+        function displayTopics() {
+            const topicsGrid = document.getElementById('topics-grid');
+            topicsGrid.innerHTML = '';
+            topics.forEach(topic => {
+                const topicCard = document.createElement('div');
+                topicCard.className = "bg-white rounded-xl shadow-lg p-6 text-center cursor-pointer hover:bg-amber-500 hover:text-white transition-colors duration-300";
+                topicCard.innerHTML = `<h3 class="font-bold">${topic}</h3>`;
+                topicCard.addEventListener('click', () => showCategory(topic));
+                topicsGrid.appendChild(topicCard);
+            });
+        }
+
+        function showCategory(category) {
+            document.getElementById('category-view-title').textContent = `Articles in: ${category}`;
+            const categoryArticlesGrid = document.getElementById('category-articles-grid');
+            categoryArticlesGrid.innerHTML = '<p>Loading articles...</p>';
+            const q = query(collection(db, "articles"), where("category", "==", category), orderBy("submittedAt", "desc"));
+            
+            getDocs(q).then(querySnapshot => {
+                categoryArticlesGrid.innerHTML = '';
+                if (querySnapshot.empty) {
+                    categoryArticlesGrid.innerHTML = `<p>No articles found in this category yet.</p>`;
+                    return;
+                }
+                querySnapshot.forEach(doc => {
+                    const article = doc.data();
+                    const articleCard = document.createElement('div');
+                    articleCard.className = "bg-white rounded-xl shadow-lg overflow-hidden flex flex-col cursor-pointer hover:shadow-2xl transition-shadow duration-300";
+                    articleCard.innerHTML = `<div class="p-6 flex-grow flex flex-col"><p class="text-sm font-semibold text-amber-600 uppercase tracking-wider">${article.category}</p><h3 class="text-xl font-bold mt-2 mb-3 flex-grow">${article.title}</h3><div class="flex items-center mt-4"><img src="${article.authorPic}" class="w-10 h-10 rounded-full mr-3 object-cover"><span class="text-slate-600 font-semibold">${article.authorName}</span></div></div>`;
+                    articleCard.addEventListener('click', () => showArticle(doc.id));
+                    categoryArticlesGrid.appendChild(articleCard);
+                });
+            }).catch(error => {
+                categoryArticlesGrid.innerHTML = '<p>Could not load articles for this category.</p>';
+                console.error(error);
+            });
+
+            navigateTo('category-view-section');
+        }
+
+        async function fetchAndDisplayMembers() {
+            const membersGrid = document.getElementById('members-grid');
+            membersGrid.innerHTML = '<p>Loading members...</p>';
+            try {
+                const querySnapshot = await getDocs(collection(db, "users"));
+                membersGrid.innerHTML = '';
+                 if (querySnapshot.empty) {
+                    membersGrid.innerHTML = '<p>No members have signed up yet.</p>';
+                    return;
+                }
+                querySnapshot.forEach(doc => {
+                    const user = doc.data();
+                    const memberCard = `<div class="bg-white rounded-xl shadow-lg p-6 text-center"><img src="${user.profilePicUrl || 'https://placehold.co/128x128/e2e8f0/334155?text=Avatar'}" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover"><h3 class="text-lg font-bold text-slate-800">${user.name || 'New Member'}</h3><p class="text-sm text-amber-600 font-semibold">@${user.username || 'username'}</p><p class="text-slate-600 mt-2 text-sm">${user.bio || 'No bio yet.'}</p></div>`;
+                    membersGrid.innerHTML += memberCard;
+                });
+            } catch (error) {
+                 membersGrid.innerHTML = '<p>Could not load members.</p>';
+                 console.error("Error fetching members:", error);
+            }
+        }
+
         function setupEventListeners() {
-            document.getElementById('login-btn').addEventListener('click', () => { ui.signupModal.classList.add('hidden'); ui.loginModal.classList.remove('hidden'); });
-            document.getElementById('signup-btn').addEventListener('click', () => { ui.loginModal.classList.add('hidden'); ui.signupModal.classList.remove('hidden'); });
-            document.getElementById('close-login-modal').addEventListener('click', () => ui.loginModal.classList.add('hidden'));
-            document.getElementById('close-signup-modal').addEventListener('click', () => ui.signupModal.classList.add('hidden'));
-            document.getElementById('mobile-menu-button').addEventListener('click', () => ui.mobileMenu.classList.toggle('hidden'));
-            ui.backBtns.forEach(btn => btn.addEventListener('click', (e) => navigateTo(e.currentTarget.dataset.target)));
+            document.getElementById('login-btn').addEventListener('click', () => { signupModal.classList.add('hidden'); loginModal.classList.remove('hidden'); });
+            document.getElementById('signup-btn').addEventListener('click', () => { loginModal.classList.add('hidden'); signupModal.classList.remove('hidden'); });
+            document.getElementById('close-login-modal').addEventListener('click', () => loginModal.classList.add('hidden'));
+            document.getElementById('close-signup-modal').addEventListener('click', () => signupModal.classList.add('hidden'));
+            document.getElementById('mobile-menu-button').addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
         }
         
         setupEventListeners();
         navigateTo('home-section');
+
     </script>
 </body>
 </html>

@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Econventure | Economics for High Schoolers</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
+        .modal-backdrop { background-color: rgba(0, 0, 0, 0.5); }
+        .hidden { display: none; }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <!-- Header Section -->
+    <header class="bg-slate-800 shadow-lg sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-extrabold text-white tracking-tight"><a href="#" class="nav-link" data-target="home-section">Econventure</a></div>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="#" class="nav-link text-slate-300 hover:text-white transition duration-300" data-target="home-section">Home</a>
+                <a href="#" class="nav-link text-slate-300 hover:text-white transition duration-300" data-target="topics-section">Topics</a>
+                <a href="#" class="nav-link text-slate-300 hover:text-white transition duration-300" data-target="about-section">About</a>
+                <a href="#" id="nav-submit-link" class="nav-link text-slate-300 hover:text-white transition duration-300 hidden" data-target="submit-section">Submit Article</a>
+                
+                <!-- Auth Buttons -->
+                <div id="auth-links" class="space-x-2">
+                    <button id="login-btn" class="bg-slate-700 text-white font-semibold py-2 px-4 rounded-lg hover:bg-slate-600 transition-colors">Login</button>
+                    <button id="signup-btn" class="bg-amber-500 text-slate-900 font-semibold py-2 px-4 rounded-lg hover:bg-amber-400 transition-colors">Sign Up</button>
+                </div>
+                <div id="user-links" class="hidden items-center space-x-4">
+                     <a href="#" id="nav-profile-link" class="nav-link text-slate-300 hover:text-white transition duration-300" data-target="profile-section">Profile</a>
+                    <button id="logout-btn" class="bg-red-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-red-700 transition-colors">Log Out</button>
+                </div>
+            </div>
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-white focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden bg-slate-800 px-6 pb-4">
+             <!-- Mobile links will be dynamically populated by JS -->
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="container mx-auto px-6 py-12">
+        
+        <!-- Home Section -->
+        <section id="home-section" class="page-section">
+            <!-- Featured Post -->
+            <div class="mb-16">
+                <h1 class="text-4xl font-bold mb-2 text-slate-900">Featured Post</h1>
+                <p class="text-lg text-slate-600 mb-8">Our top-picked article of the week.</p>
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden md:flex">
+                    <div class="md:w-1/2"><img class="h-full w-full object-cover" src="https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?q=80&w=1974&auto=format&fit=crop" alt="Concert"></div>
+                    <div class="p-8 md:p-12 md:w-1/2 flex flex-col justify-center">
+                        <p class="text-sm font-semibold text-amber-600 uppercase tracking-wider">Current Events</p>
+                        <h2 class="text-3xl font-extrabold text-slate-900 mt-2 mb-4">Why Are Concert Tickets So Expensive?</h2>
+                        <p class="text-slate-600 mb-6">A deep dive into the world of supply, demand, and market power that dictates why seeing your favorite artist costs a fortune.</p>
+                        <a href="#" class="inline-block bg-slate-700 text-white font-bold py-3 px-6 rounded-lg hover:bg-slate-800 transition-colors duration-300 self-start">Read More &rarr;</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Latest Posts -->
+            <div>
+                <h2 class="text-3xl font-bold mb-8 text-slate-900">Latest Adventures</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Cards here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Topics Section -->
+        <section id="topics-section" class="page-section hidden">
+            <div class="text-center mb-16">
+                <h1 class="text-5xl font-extrabold text-slate-900">Explore Our Topics</h1>
+                <p class="text-xl text-slate-600 mt-4 max-w-3xl mx-auto">From foundational concepts to the economics of daily life, find your next adventure here.</p>
+            </div>
+            <!-- Topic categories will be dynamically generated or listed here -->
+        </section>
+
+        <!-- About Section -->
+        <section id="about-section" class="page-section hidden">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-12">
+                    <h1 class="text-5xl font-extrabold text-slate-900">About Econventure</h1>
+                    <p class="text-xl text-slate-600 mt-4">Demystifying economics, one article at a time.</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-lg mb-12">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-4">Our Mission</h2>
+                    <p class="text-lg text-slate-600 leading-relaxed">Econventure was founded on a simple belief: economics shouldn't be intimidating. It's the story of our choices, our communities, and our world. Our mission is to create a platform where high school students can explore complex economic ideas in a way that is clear, engaging, and relevant to their lives. We are a team of curious students dedicated to translating the language of markets and policies into compelling stories and practical insights for our peers.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Submit Article Section -->
+        <section id="submit-section" class="page-section hidden">
+             <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-12">
+                    <h1 class="text-5xl font-extrabold text-slate-900">Submit Your Article</h1>
+                    <p class="text-xl text-slate-600 mt-4">Share your passion for economics by contributing to our blog.</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-lg">
+                    <form id="article-submission-form">
+                        <div class="space-y-6">
+                            <div>
+                                <label for="article-title" class="block text-sm font-medium text-slate-700">Article Title</label>
+                                <input type="text" name="article-title" id="article-title" required class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm">
+                            </div>
+                            <div>
+                                <label for="article-category" class="block text-sm font-medium text-slate-700">Category</label>
+                                <select id="article-category" name="article-category" required class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm">
+                                    <option>Macroeconomics</option>
+                                    <option>Microeconomics</option>
+                                    <option>Personal Finance</option>
+                                    <option>Behavioral Economics</option>
+                                    <option>International Trade</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="article-draft" class="block text-sm font-medium text-slate-700">Article Draft</label>
+                                <textarea name="article-draft" id="article-draft" rows="10" required class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm" placeholder="Paste your article draft here..."></textarea>
+                            </div>
+                            <div>
+                                <button type="submit" class="w-full bg-slate-700 text-white font-bold py-3 px-6 rounded-lg hover:bg-slate-800">Submit for Review</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Profile Section -->
+        <section id="profile-section" class="page-section hidden">
+            <div class="max-w-2xl mx-auto">
+                <div class="text-center mb-12">
+                    <h1 class="text-5xl font-extrabold text-slate-900">Your Profile</h1>
+                    <p id="profile-email" class="text-xl text-slate-600 mt-4"></p>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-lg">
+                    <form id="profile-form">
+                        <div class="space-y-4">
+                            <div>
+                                <label for="profile-name" class="block text-sm font-medium text-slate-700">Full Name</label>
+                                <input type="text" id="profile-name" required class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm">
+                            </div>
+                            <div>
+                                <label for="profile-bio" class="block text-sm font-medium text-slate-700">Author Bio</label>
+                                <textarea id="profile-bio" rows="4" class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm" placeholder="e.g., A junior at Central High School passionate about behavioral economics..."></textarea>
+                            </div>
+                            <div>
+                                <button type="submit" class="w-full bg-slate-700 text-white font-bold py-3 px-6 rounded-lg hover:bg-slate-800">Save Profile</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <!-- Modals -->
+    <!-- Login Modal -->
+    <div id="login-modal" class="fixed inset-0 modal-backdrop items-center justify-center hidden">
+        <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md">
+            <h2 class="text-2xl font-bold text-center mb-6">Login to Econventure</h2>
+            <form id="login-form">
+                <div class="space-y-4">
+                    <input type="email" id="login-email" placeholder="Email Address" required class="w-full px-4 py-2 border rounded-lg">
+                    <input type="password" id="login-password" placeholder="Password" required class="w-full px-4 py-2 border rounded-lg">
+                    <button type="submit" class="w-full bg-slate-700 text-white font-bold py-3 rounded-lg hover:bg-slate-800">Login</button>
+                </div>
+            </form>
+            <button id="close-login-modal" class="absolute top-4 right-4 text-slate-600">&times;</button>
+        </div>
+    </div>
+
+    <!-- Sign Up Modal -->
+    <div id="signup-modal" class="fixed inset-0 modal-backdrop items-center justify-center hidden">
+        <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md">
+            <h2 class="text-2xl font-bold text-center mb-6">Create Your Account</h2>
+            <form id="signup-form">
+                <div class="space-y-4">
+                    <input type="email" id="signup-email" placeholder="Email Address" required class="w-full px-4 py-2 border rounded-lg">
+                    <input type="password" id="signup-password" placeholder="Password (min. 6 characters)" required class="w-full px-4 py-2 border rounded-lg">
+                    <button type="submit" class="w-full bg-amber-500 text-slate-900 font-bold py-3 rounded-lg hover:bg-amber-400">Sign Up</button>
+                </div>
+            </form>
+            <button id="close-signup-modal" class="absolute top-4 right-4 text-slate-600">&times;</button>
+        </div>
+    </div>
+
+    <!-- Message Box -->
+    <div id="message-box" class="fixed bottom-5 right-5 bg-slate-800 text-white py-3 px-5 rounded-lg shadow-lg hidden"></div>
+
+    <!-- Firebase SDKs and App Logic -->
+    <script type="module">
+        
+        
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, addDoc, collection } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // DOM Elements
+        const pageSections = document.querySelectorAll('.page-section');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const authLinks = document.getElementById('auth-links');
+        const userLinks = document.getElementById('user-links');
+        const navSubmitLink = document.getElementById('nav-submit-link');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const messageBox = document.getElementById('message-box');
+
+        // Modals
+        const loginModal = document.getElementById('login-modal');
+        const signupModal = document.getElementById('signup-modal');
+
+        // --- NAVIGATION ---
+        function navigateTo(targetId) {
+            pageSections.forEach(section => {
+                section.classList.add('hidden');
+            });
+            document.getElementById(targetId).classList.remove('hidden');
+            // Highlight active nav link if needed
+        }
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = e.currentTarget.dataset.target;
+                navigateTo(targetId);
+            });
+        });
+
+        // --- UI UPDATES ---
+        function showMessage(message, isError = false) {
+            messageBox.textContent = message;
+            messageBox.classList.remove('hidden');
+            messageBox.style.backgroundColor = isError ? '#dc2626' : '#1e293b'; // Red for error, slate for success
+            setTimeout(() => {
+                messageBox.classList.add('hidden');
+            }, 3000);
+        }
+
+        function updateUIForUser(user) {
+            if (user) {
+                // User is logged in
+                authLinks.classList.add('hidden');
+                userLinks.classList.remove('hidden');
+                navSubmitLink.classList.remove('hidden');
+                loadUserProfile(user);
+            } else {
+                // User is logged out
+                authLinks.classList.remove('hidden');
+                userLinks.classList.add('hidden');
+                navSubmitLink.classList.add('hidden');
+                navigateTo('home-section');
+            }
+            updateMobileMenu(user);
+        }
+        
+        function updateMobileMenu(user) {
+            mobileMenu.innerHTML = ''; // Clear existing links
+            const links = [
+                { text: 'Home', target: 'home-section' },
+                { text: 'Topics', target: 'topics-section' },
+                { text: 'About', target: 'about-section' },
+            ];
+            if (user) {
+                links.push({ text: 'Submit Article', target: 'submit-section' });
+                links.push({ text: 'Profile', target: 'profile-section' });
+            }
+            links.forEach(linkInfo => {
+                 const a = document.createElement('a');
+                 a.href = '#';
+                 a.textContent = linkInfo.text;
+                 a.className = 'nav-link block text-slate-300 hover:text-white py-2';
+                 a.dataset.target = linkInfo.target;
+                 a.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    navigateTo(linkInfo.target);
+                    mobileMenu.classList.add('hidden'); // Close menu on click
+                 });
+                 mobileMenu.appendChild(a);
+            });
+        }
+
+        // --- AUTHENTICATION ---
+        onAuthStateChanged(auth, (user) => {
+            updateUIForUser(user);
+        });
+
+        // Sign Up
+        document.getElementById('signup-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                // Create a user profile document in Firestore
+                await setDoc(doc(db, "users", userCredential.user.uid), {
+                    email: userCredential.user.email,
+                    name: "",
+                    bio: ""
+                });
+                signupModal.classList.remove('flex');
+                signupModal.classList.add('hidden');
+                showMessage('Account created successfully!');
+            } catch (error) {
+                showMessage(error.message, true);
+            }
+        });
+
+        // Login
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                loginModal.classList.remove('flex');
+                loginModal.classList.add('hidden');
+                showMessage('Logged in successfully!');
+                navigateTo('home-section');
+            } catch (error) {
+                showMessage(error.message, true);
+            }
+        });
+
+        // Logout
+        document.getElementById('logout-btn').addEventListener('click', async () => {
+            try {
+                await signOut(auth);
+                showMessage('Logged out successfully.');
+            } catch (error) {
+                showMessage(error.message, true);
+            }
+        });
+
+        // --- FIRESTORE (DATABASE) ---
+        async function loadUserProfile(user) {
+            if (!user) return;
+            const docRef = doc(db, "users", user.uid);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                const userData = docSnap.data();
+                document.getElementById('profile-email').textContent = userData.email;
+                document.getElementById('profile-name').value = userData.name || '';
+                document.getElementById('profile-bio').value = userData.bio || '';
+            }
+        }
+
+        // Save Profile
+        document.getElementById('profile-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const user = auth.currentUser;
+            if (!user) return;
+            
+            const profileData = {
+                name: document.getElementById('profile-name').value,
+                bio: document.getElementById('profile-bio').value
+            };
+
+            try {
+                await setDoc(doc(db, "users", user.uid), profileData, { merge: true });
+                showMessage('Profile updated successfully!');
+            } catch (error) {
+                showMessage(error.message, true);
+            }
+        });
+
+        // Submit Article
+        document.getElementById('article-submission-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const user = auth.currentUser;
+            if (!user) {
+                showMessage('You must be logged in to submit an article.', true);
+                return;
+            }
+
+            const articleData = {
+                authorId: user.uid,
+                authorEmail: user.email,
+                title: document.getElementById('article-title').value,
+                category: document.getElementById('article-category').value,
+                draft: document.getElementById('article-draft').value,
+                status: 'pending_review', // e.g., pending_review, approved, rejected
+                submittedAt: new Date()
+            };
+
+            try {
+                await addDoc(collection(db, "articles"), articleData);
+                showMessage('Article submitted successfully for review!');
+                document.getElementById('article-submission-form').reset();
+                navigateTo('home-section');
+            } catch (error) {
+                showMessage(error.message, true);
+            }
+        });
+
+        // --- EVENT LISTENERS for Modals and Mobile Menu ---
+        function setupEventListeners() {
+            document.getElementById('login-btn').addEventListener('click', () => {
+                loginModal.classList.remove('hidden');
+                loginModal.classList.add('flex');
+            });
+            document.getElementById('signup-btn').addEventListener('click', () => {
+                signupModal.classList.remove('hidden');
+                signupModal.classList.add('flex');
+            });
+            document.getElementById('close-login-modal').addEventListener('click', () => {
+                loginModal.classList.add('hidden');
+                loginModal.classList.remove('flex');
+            });
+             document.getElementById('close-signup-modal').addEventListener('click', () => {
+                signupModal.classList.add('hidden');
+                signupModal.classList.remove('flex');
+            });
+            document.getElementById('mobile-menu-button').addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+        
+        // Initialize the app
+        setupEventListeners();
+        navigateTo('home-section'); // Show home section on page load
+
+    </script>
+</body>
+</html>

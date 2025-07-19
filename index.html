@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Econventure | Economics for High Schoolers</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- showdown.js for Markdown to HTML conversion -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
+        .modal-backdrop { background-color: rgba(0, 0, 0, 0.5); }
+        .hidden { display: none; }
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .nav-link.active {
+            color: white;
+            font-weight: 700;
+        }
+        /* Styles for the article content */
+        .article-content h1, .article-content h2, .article-content h3 {
+            font-weight: 700;
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+        }
+        .article-content h1 { font-size: 2.25rem; }
+        .article-content h2 { font-size: 1.875rem; }
+        .article-content h3 { font-size: 1.5rem; }
+        .article-content p { margin-bottom: 1em; line-height: 1.6; }
+        .article-content a { color: #f59e0b; text-decoration: underline; }
+        .article-content ul, .article-content ol { margin-left: 1.5rem; margin-bottom: 1em; }
+        .article-content li { margin-bottom: 0.5em; }
+        .article-content blockquote { border-left: 4px solid #e2e8f0; padding-left: 1rem; margin-left: 0; font-style: italic; color: #64748b; }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <!-- Header Section -->
+    <header class="bg-slate-800 shadow-lg sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-extrabold text-white tracking-tight"><a href="#" class="nav-link" data-target="home-section">Econventure</a></div>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="#" class="nav-link text-slate-300 hover:text-white transition duration-300" data-target="home-section">Home</a>
+                <a href="#" class="nav-link text-slate-300 hover:text-white transition duration-300" data-target="topics-section">Topics</a>
+                <a href="#" class="nav-link text-slate-300 hover:text-white transition duration-300" data-target="members-section">Members</a>
+                <a href="#" class="nav-link text-slate-300 hover:text-white transition duration-300" data-target="about-section">About</a>
+                <a href="#" id="nav-submit-link" class="nav-link text-slate-300 hover:text-white transition duration-300 hidden" data-target="submit-section">Submit Article</a>
+                
+                <div id="auth-links" class="space-x-2">
+                    <button id="login-btn" class="bg-slate-700 text-white font-semibold py-2 px-4 rounded-lg hover:bg-slate-600 transition-colors">Login</button>
+                    <button id="signup-btn" class="bg-amber-500 text-slate-900 font-semibold py-2 px-4 rounded-lg hover:bg-amber-400 transition-colors">Sign Up</button>
+                </div>
+                <div id="user-links" class="hidden items-center space-x-4">
+                     <a href="#" id="nav-profile-link" class="nav-link text-slate-300 hover:text-white transition duration-300" data-target="profile-section">Profile</a>
+                    <button id="logout-btn" class="bg-red-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-red-700 transition-colors">Log Out</button>
+                </div>
+            </div>
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-white focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden bg-slate-800 px-6 pb-4"></div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="container mx-auto px-6 py-12">
+        
+        <section id="home-section" class="page-section">
+            <h1 class="text-4xl font-bold mb-8 text-slate-900">Latest Articles</h1>
+            <div id="latest-articles-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+        </section>
+
+        <section id="article-view-section" class="page-section hidden">
+            <div class="max-w-4xl mx-auto">
+                <button id="back-to-home-btn" class="mb-8 text-slate-600 font-semibold hover:text-slate-800">&larr; Back to all articles</button>
+                <div class="bg-white p-8 md:p-12 rounded-xl shadow-lg">
+                    <p id="article-view-category" class="text-sm font-semibold text-amber-600 uppercase tracking-wider"></p>
+                    <h1 id="article-view-title" class="text-4xl md:text-5xl font-extrabold text-slate-900 mt-2 mb-6"></h1>
+                    <div id="article-view-author" class="flex items-center mb-8"></div>
+                    <div id="article-view-content" class="article-content text-lg text-slate-700"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="topics-section" class="page-section hidden">
+            <div class="text-center mb-16">
+                <h1 class="text-5xl font-extrabold text-slate-900">Explore Our Topics</h1>
+                <p class="text-xl text-slate-600 mt-4 max-w-3xl mx-auto">Browse articles by category to dive deeper into your interests.</p>
+            </div>
+            <div id="topics-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
+        </section>
+
+        <section id="category-view-section" class="page-section hidden">
+            <button id="back-to-topics-btn" class="mb-8 text-slate-600 font-semibold hover:text-slate-800">&larr; Back to all topics</button>
+            <h1 id="category-view-title" class="text-4xl font-bold mb-8 text-slate-900"></h1>
+            <div id="category-articles-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+        </section>
+        
+        <section id="members-section" class="page-section hidden">
+            <div class="text-center mb-16">
+                <h1 class="text-5xl font-extrabold text-slate-900">Our Authors</h1>
+                <p class="text-xl text-slate-600 mt-4 max-w-3xl mx-auto">Meet the global community of student writers powering Econventure.</p>
+            </div>
+            <div id="members-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"></div>
+        </section>
+
+        <section id="about-section" class="page-section hidden">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-12"><h1 class="text-5xl font-extrabold text-slate-900">About Econventure</h1><p class="text-xl text-slate-600 mt-4">Demystifying economics, one article at a time.</p></div>
+                <div class="bg-white p-8 rounded-xl shadow-lg mb-12"><h2 class="text-3xl font-bold text-slate-900 mb-4">Our Mission</h2><p class="text-lg text-slate-600 leading-relaxed">Econventure was founded on a simple belief: economics shouldn't be intimidating. It's the story of our choices, our communities, and our world. Our mission is to create a platform where high school students can explore complex economic ideas in a way that is clear, engaging, and relevant to their lives. We are a team of curious students dedicated to translating the language of markets and policies into compelling stories and practical insights for our peers.</p></div>
+            </div>
+        </section>
+
+        <section id="submit-section" class="page-section hidden">
+             <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-12"><h1 class="text-5xl font-extrabold text-slate-900">Submit Your Article</h1><p class="text-xl text-slate-600 mt-4">Share your passion for economics by contributing to our blog.</p></div>
+                <div class="bg-white p-8 rounded-xl shadow-lg"><form id="article-submission-form"><div class="space-y-6"><div><label for="article-title" class="block text-sm font-medium text-slate-700">Article Title</label><input type="text" id="article-title" required class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm"></div><div><label for="article-category" class="block text-sm font-medium text-slate-700">Category</label><select id="article-category" required class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm"><option>-- Please select a category --</option><option>Macroeconomics (Inflation, GDP)</option><option>Microeconomics (Supply & Demand)</option><option>Personal Finance & Budgeting</option><option>Investing & Stock Market</option><option>Behavioral Economics</option><option>International Trade & Globalization</option><option>Game Theory & Strategy</option><option>Environmental Economics</option><option>Business & Entrepreneurship</option><option>Technology & The Digital Economy</option><option>Career Corner</option><option>Economic History</option><option>Book/Movie Review</option><option>Current Events Analysis</option><option>Other</option></select></div><div><label for="article-draft" class="block text-sm font-medium text-slate-700">Article Draft (Supports Markdown)</label><textarea id="article-draft" rows="10" required class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm" placeholder="Write your article here..."></textarea></div><div><button type="submit" class="w-full bg-slate-700 text-white font-bold py-3 px-6 rounded-lg hover:bg-slate-800">Submit for Review</button></div></div></form></div>
+            </div>
+        </section>
+
+        <section id="profile-section" class="page-section hidden">
+            <div class="max-w-2xl mx-auto">
+                <div class="text-center mb-12"><h1 class="text-5xl font-extrabold text-slate-900">Your Author Profile</h1></div>
+                <div class="bg-white p-8 rounded-xl shadow-lg"><form id="profile-form"><div class="space-y-6">
+                    <div class="flex flex-col items-center"><img id="profile-pic-preview" src="https://placehold.co/128x128/e2e8f0/334155?text=Avatar" class="w-32 h-32 rounded-full mb-4 object-cover"><input type="file" id="profile-pic-upload" accept="image/*" class="text-sm"></div>
+                    <div><label for="profile-username" class="block text-sm font-medium text-slate-700">Username</label><input type="text" id="profile-username" required placeholder="A unique username (e.g., econ_explorer)" class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm"></div>
+                    <div><label for="profile-name" class="block text-sm font-medium text-slate-700">Full Name</label><input type="text" id="profile-name" required class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm"></div>
+                    <div><label for="profile-bio" class="block text-sm font-medium text-slate-700">Author Bio</label><textarea id="profile-bio" rows="4" class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm" placeholder="e.g., A junior at Central High School passionate about behavioral economics..."></textarea></div>
+                    <div><button type="submit" class="w-full bg-slate-700 text-white font-bold py-3 px-6 rounded-lg hover:bg-slate-800">Save Profile</button></div>
+                </div></form></div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Modals -->
+    <div id="login-modal" class="modal modal-backdrop items-center justify-center hidden"><div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md relative"><button id="close-login-modal" class="absolute top-4 right-4 text-slate-600 text-2xl font-bold">&times;</button><h2 class="text-2xl font-bold text-center mb-6">Login to Econventure</h2><form id="login-form"><div class="space-y-4"><input type="email" id="login-email" placeholder="Email Address" required class="w-full px-4 py-2 border rounded-lg"><input type="password" id="login-password" placeholder="Password" required class="w-full px-4 py-2 border rounded-lg"><button type="submit" class="w-full bg-slate-700 text-white font-bold py-3 rounded-lg hover:bg-slate-800">Login</button></div></form></div></div>
+    <div id="signup-modal" class="modal modal-backdrop items-center justify-center hidden"><div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md relative"><button id="close-signup-modal" class="absolute top-4 right-4 text-slate-600 text-2xl font-bold">&times;</button><h2 class="text-2xl font-bold text-center mb-6">Create Your Account</h2><form id="signup-form"><div class="space-y-4"><input type="email" id="signup-email" placeholder="Email Address" required class="w-full px-4 py-2 border rounded-lg"><input type="password" id="signup-password" placeholder="Password (min. 6 characters)" required class="w-full px-4 py-2 border rounded-lg"><button type="submit" class="w-full bg-amber-500 text-slate-900 font-bold py-3 rounded-lg hover:bg-amber-400">Sign Up</button></div></form></div></div>
+    <div id="message-box" class="fixed bottom-5 right-5 bg-slate-800 text-white py-3 px-5 rounded-lg shadow-lg hidden z-[110]"></div>
+
+    <!-- Firebase SDKs and App Logic -->
+    <script type="module">
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyAdxuptlaWc8qr77lapfCVpQkzNpIz3Hng",
+  authDomain: "econventure-3bb7e.firebaseapp.com",
+  projectId: "econventure-3bb7e",
+  storageBucket: "econventure-3bb7e.firebasestorage.app",
+  messagingSenderId: "806695407866",
+  appId: "1:806695407866:web:fb9c87e3304286e9793943",
+  measurementId: "G-KNYNWLCT37"
+};
+        
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, addDoc, collection, getDocs, query, where, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+
+        const pageSections = document.querySelectorAll('.page-section');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const authLinks = document.getElementById('auth-links');
+        const userLinks = document.getElementById('user-links');
+        const navSubmitLink = document.getElementById('nav-submit-link');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const messageBox = document.getElementById('message-box');
+        const loginModal = document.getElementById('login-modal');
+        const signupModal = document.getElementById('signup-modal');
+        const markdownConverter = new showdown.Converter();
+
+        const topics = [
+            'Macroeconomics (Inflation, GDP)', 'Microeconomics (Supply & Demand)', 'Personal Finance & Budgeting',
+            'Investing & Stock Market', 'Behavioral Economics', 'International Trade & Globalization',
+            'Game Theory & Strategy', 'Environmental Economics', 'Business & Entrepreneurship',
+            'Technology & The Digital Economy', 'Career Corner', 'Economic History', 'Book/Movie Review',
+            'Current Events Analysis', 'Other'
+        ];
+
+        function navigateTo(targetId) {
+            pageSections.forEach(section => section.classList.add('hidden'));
+            document.getElementById(targetId).classList.remove('hidden');
+            navLinks.forEach(link => link.classList.toggle('active', link.dataset.target === targetId));
+            if (targetId === 'home-section') fetchAndDisplayArticles();
+            if (targetId === 'members-section') fetchAndDisplayMembers();
+            if (targetId === 'topics-section') displayTopics();
+        }
+
+        navLinks.forEach(link => link.addEventListener('click', e => { e.preventDefault(); navigateTo(e.currentTarget.dataset.target); }));
+        document.getElementById('back-to-home-btn').addEventListener('click', e => { e.preventDefault(); navigateTo('home-section'); });
+        document.getElementById('back-to-topics-btn').addEventListener('click', e => { e.preventDefault(); navigateTo('topics-section'); });
+
+        function showMessage(message, isError = false) {
+            messageBox.textContent = message;
+            messageBox.classList.remove('hidden');
+            messageBox.style.backgroundColor = isError ? '#dc2626' : '#1e293b';
+            setTimeout(() => messageBox.classList.add('hidden'), 3000);
+        }
+
+        function updateUIForUser(user) {
+            authLinks.classList.toggle('hidden', !!user);
+            userLinks.classList.toggle('hidden', !user);
+            navSubmitLink.classList.toggle('hidden', !user);
+            if (user) loadUserProfile(user); else navigateTo('home-section');
+            updateMobileMenu(user);
+        }
+        
+        function updateMobileMenu(user) {
+            mobileMenu.innerHTML = '';
+            const links = [
+                { text: 'Home', target: 'home-section' }, { text: 'Topics', target: 'topics-section' },
+                { text: 'Members', target: 'members-section' }, { text: 'About', target: 'about-section' }
+            ];
+            if (user) {
+                links.push({ text: 'Submit Article', target: 'submit-section' }, { text: 'Profile', target: 'profile-section' });
+            }
+            links.forEach(linkInfo => {
+                 const a = document.createElement('a');
+                 a.href = '#'; a.textContent = linkInfo.text; a.className = 'nav-link block text-slate-300 hover:text-white py-2'; a.dataset.target = linkInfo.target;
+                 a.addEventListener('click', e => { e.preventDefault(); navigateTo(linkInfo.target); mobileMenu.classList.add('hidden'); });
+                 mobileMenu.appendChild(a);
+            });
+        }
+
+        onAuthStateChanged(auth, updateUIForUser);
+
+        document.getElementById('signup-form').addEventListener('submit', async e => {
+            e.preventDefault();
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            try {
+                const cred = await createUserWithEmailAndPassword(auth, email, password);
+                await setDoc(doc(db, "users", cred.user.uid), { email: cred.user.email, name: "", bio: "", username: "", profilePicUrl: "" });
+                signupModal.classList.add('hidden');
+                showMessage('Account created successfully!');
+            } catch (error) { showMessage(error.message, true); }
+        });
+
+        document.getElementById('login-form').addEventListener('submit', async e => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                loginModal.classList.add('hidden');
+                showMessage('Logged in successfully!');
+                navigateTo('home-section');
+            } catch (error) { showMessage(error.message, true); }
+        });
+
+        document.getElementById('logout-btn').addEventListener('click', () => signOut(auth).catch(err => showMessage(err.message, true)));
+
+        async function loadUserProfile(user) {
+            if (!user) return;
+            const docRef = doc(db, "users", user.uid);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                document.getElementById('profile-username').value = data.username || '';
+                document.getElementById('profile-name').value = data.name || '';
+                document.getElementById('profile-bio').value = data.bio || '';
+                document.getElementById('profile-pic-preview').src = data.profilePicUrl || 'https://placehold.co/128x128/e2e8f0/334155?text=Avatar';
+            }
+        }
+
+        document.getElementById('profile-form').addEventListener('submit', async e => {
+            e.preventDefault();
+            const user = auth.currentUser;
+            if (!user) return;
+
+            showMessage('Saving profile...');
+            const profilePicFile = document.getElementById('profile-pic-upload').files[0];
+            let profilePicUrl = document.getElementById('profile-pic-preview').src;
+
+            try {
+                if (profilePicFile) {
+                    const storageRef = ref(storage, `profile_pictures/${user.uid}`);
+                    await uploadBytes(storageRef, profilePicFile);
+                    profilePicUrl = await getDownloadURL(storageRef);
+                }
+
+                const profileData = {
+                    username: document.getElementById('profile-username').value,
+                    name: document.getElementById('profile-name').value,
+                    bio: document.getElementById('profile-bio').value,
+                    profilePicUrl: profilePicUrl
+                };
+                await setDoc(doc(db, "users", user.uid), profileData, { merge: true });
+                showMessage('Profile updated successfully!');
+            } catch (error) {
+                showMessage(error.message, true);
+            }
+        });
+
+        document.getElementById('article-submission-form').addEventListener('submit', async e => {
+            e.preventDefault();
+            const user = auth.currentUser;
+            if (!user) return showMessage('You must be logged in.', true);
+            
+            const userDataSnap = await getDoc(doc(db, "users", user.uid));
+            const authorName = userDataSnap.data()?.name || 'Anonymous';
+            const authorPic = userDataSnap.data()?.profilePicUrl || 'https://placehold.co/128x128/e2e8f0/334155?text=Avatar';
+
+            const articleData = {
+                authorId: user.uid,
+                authorName: authorName,
+                authorPic: authorPic,
+                title: document.getElementById('article-title').value,
+                category: document.getElementById('article-category').value,
+                draft: document.getElementById('article-draft').value,
+                status: 'published',
+                submittedAt: new Date()
+            };
+            try {
+                await addDoc(collection(db, "articles"), articleData);
+                showMessage('Article submitted successfully!');
+                document.getElementById('article-submission-form').reset();
+                navigateTo('home-section');
+            } catch (error) { showMessage(error.message, true); }
+        });
+
+        async function fetchAndDisplayArticles(articleQuery = query(collection(db, "articles"), orderBy("submittedAt", "desc"), limit(9))) {
+            const articlesGrid = document.getElementById('latest-articles-grid');
+            articlesGrid.innerHTML = '<p>Loading articles...</p>';
+            try {
+                const querySnapshot = await getDocs(articleQuery);
+                articlesGrid.innerHTML = '';
+                if (querySnapshot.empty) {
+                    articlesGrid.innerHTML = '<p>No articles found. Be the first to contribute!</p>';
+                    return;
+                }
+                querySnapshot.forEach(doc => {
+                    const article = doc.data();
+                    const articleCard = document.createElement('div');
+                    articleCard.className = "bg-white rounded-xl shadow-lg overflow-hidden flex flex-col cursor-pointer hover:shadow-2xl transition-shadow duration-300";
+                    articleCard.innerHTML = `<div class="p-6 flex-grow flex flex-col"><p class="text-sm font-semibold text-amber-600 uppercase tracking-wider">${article.category}</p><h3 class="text-xl font-bold mt-2 mb-3 flex-grow">${article.title}</h3><div class="flex items-center mt-4"><img src="${article.authorPic}" class="w-10 h-10 rounded-full mr-3 object-cover"><span class="text-slate-600 font-semibold">${article.authorName}</span></div></div>`;
+                    articleCard.addEventListener('click', () => showArticle(doc.id));
+                    articlesGrid.appendChild(articleCard);
+                });
+            } catch (error) {
+                articlesGrid.innerHTML = '<p>Could not load articles.</p>'; console.error(error);
+            }
+        }
+
+        async function showArticle(articleId) {
+            try {
+                const docRef = doc(db, "articles", articleId);
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    const article = docSnap.data();
+                    document.getElementById('article-view-category').textContent = article.category;
+                    document.getElementById('article-view-title').textContent = article.title;
+                    document.getElementById('article-view-author').innerHTML = `<img src="${article.authorPic}" class="w-12 h-12 rounded-full mr-4 object-cover"><div><p class="font-bold text-slate-800">${article.authorName}</p><p class="text-sm text-slate-500">${article.submittedAt.toDate().toLocaleDateString()}</p></div>`;
+                    document.getElementById('article-view-content').innerHTML = markdownConverter.makeHtml(article.draft);
+                    navigateTo('article-view-section');
+                } else { showMessage('Article not found.', true); }
+            } catch (error) { showMessage('Could not load article.', true); }
+        }
+
+        function displayTopics() {
+            const topicsGrid = document.getElementById('topics-grid');
+            topicsGrid.innerHTML = '';
+            topics.forEach(topic => {
+                const topicCard = document.createElement('div');
+                topicCard.className = "bg-white rounded-xl shadow-lg p-6 text-center cursor-pointer hover:bg-amber-500 hover:text-white transition-colors duration-300";
+                topicCard.innerHTML = `<h3 class="font-bold">${topic}</h3>`;
+                topicCard.addEventListener('click', () => showCategory(topic));
+                topicsGrid.appendChild(topicCard);
+            });
+        }
+
+        function showCategory(category) {
+            document.getElementById('category-view-title').textContent = `Articles in: ${category}`;
+            const categoryArticlesGrid = document.getElementById('category-articles-grid');
+            categoryArticlesGrid.innerHTML = '<p>Loading articles...</p>';
+            const q = query(collection(db, "articles"), where("category", "==", category), orderBy("submittedAt", "desc"));
+            
+            getDocs(q).then(querySnapshot => {
+                categoryArticlesGrid.innerHTML = '';
+                if (querySnapshot.empty) {
+                    categoryArticlesGrid.innerHTML = `<p>No articles found in this category yet.</p>`;
+                    return;
+                }
+                querySnapshot.forEach(doc => {
+                    const article = doc.data();
+                    const articleCard = document.createElement('div');
+                    articleCard.className = "bg-white rounded-xl shadow-lg overflow-hidden flex flex-col cursor-pointer hover:shadow-2xl transition-shadow duration-300";
+                    articleCard.innerHTML = `<div class="p-6 flex-grow flex flex-col"><p class="text-sm font-semibold text-amber-600 uppercase tracking-wider">${article.category}</p><h3 class="text-xl font-bold mt-2 mb-3 flex-grow">${article.title}</h3><div class="flex items-center mt-4"><img src="${article.authorPic}" class="w-10 h-10 rounded-full mr-3 object-cover"><span class="text-slate-600 font-semibold">${article.authorName}</span></div></div>`;
+                    articleCard.addEventListener('click', () => showArticle(doc.id));
+                    categoryArticlesGrid.appendChild(articleCard);
+                });
+            }).catch(error => {
+                categoryArticlesGrid.innerHTML = '<p>Could not load articles for this category.</p>';
+                console.error(error);
+            });
+
+            navigateTo('category-view-section');
+        }
+
+        async function fetchAndDisplayMembers() {
+            const membersGrid = document.getElementById('members-grid');
+            membersGrid.innerHTML = '<p>Loading members...</p>';
+            try {
+                const querySnapshot = await getDocs(collection(db, "users"));
+                membersGrid.innerHTML = '';
+                 if (querySnapshot.empty) {
+                    membersGrid.innerHTML = '<p>No members have signed up yet.</p>';
+                    return;
+                }
+                querySnapshot.forEach(doc => {
+                    const user = doc.data();
+                    const memberCard = `<div class="bg-white rounded-xl shadow-lg p-6 text-center"><img src="${user.profilePicUrl || 'https://placehold.co/128x128/e2e8f0/334155?text=Avatar'}" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover"><h3 class="text-lg font-bold text-slate-800">${user.name || 'New Member'}</h3><p class="text-sm text-amber-600 font-semibold">@${user.username || 'username'}</p><p class="text-slate-600 mt-2 text-sm">${user.bio || 'No bio yet.'}</p></div>`;
+                    membersGrid.innerHTML += memberCard;
+                });
+            } catch (error) {
+                 membersGrid.innerHTML = '<p>Could not load members.</p>';
+                 console.error("Error fetching members:", error);
+            }
+        }
+
+        function setupEventListeners() {
+            document.getElementById('login-btn').addEventListener('click', () => { signupModal.classList.add('hidden'); loginModal.classList.remove('hidden'); });
+            document.getElementById('signup-btn').addEventListener('click', () => { loginModal.classList.add('hidden'); signupModal.classList.remove('hidden'); });
+            document.getElementById('close-login-modal').addEventListener('click', () => loginModal.classList.add('hidden'));
+            document.getElementById('close-signup-modal').addEventListener('click', () => signupModal.classList.add('hidden'));
+            document.getElementById('mobile-menu-button').addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+        }
+        
+        setupEventListeners();
+        navigateTo('home-section');
+
+    </script>
+</body>
+</html>
